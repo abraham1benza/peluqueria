@@ -21,7 +21,7 @@
     --shadow-sm:0 2px 8px rgba(232,123,107,.08);
     --shadow:0 8px 24px rgba(61,42,38,.08), 0 2px 6px rgba(61,42,38,.04);
     --shadow-lg:0 20px 50px rgba(61,42,38,.12);
-    --radius:20px;--radius-sm:14px;--sidebar-w:230px;
+    --radius:20px;--radius-sm:14px;--sidebar-w:240px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.5;overscroll-behavior:none}
@@ -31,13 +31,64 @@
   button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none}
   input,select,textarea{font-family:inherit;color:inherit}
 
-  .app{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+  /* ============ AUTH SCREENS ============ */
+  .auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+  .auth-card{
+    width:100%;max-width:420px;
+    background:var(--surface);border-radius:var(--radius);
+    padding:36px 30px;box-shadow:var(--shadow-lg);
+    border:1px solid var(--line-soft);
+  }
+  .auth-card .logo-big{
+    width:64px;height:64px;border-radius:18px;
+    background:linear-gradient(135deg,var(--primary),var(--rose));
+    display:flex;align-items:center;justify-content:center;color:white;
+    box-shadow:0 10px 24px rgba(232,123,107,.35);
+    margin:0 auto 20px;
+  }
+  .auth-card h1{font-family:'DM Serif Display',serif;font-weight:400;font-size:30px;text-align:center;margin:0 0 6px;color:var(--text)}
+  .auth-card h1 em{color:var(--primary);font-style:italic}
+  .auth-card .auth-sub{text-align:center;color:var(--text-2);font-size:14px;margin-bottom:24px}
+  .auth-error{background:var(--rose-soft);color:var(--primary-dark);padding:10px 14px;border-radius:10px;font-size:13px;margin-top:12px;display:none}
+  .auth-error.show{display:block}
 
-  .sidebar{background:var(--surface);border-right:1px solid var(--line-soft);padding:28px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:30;overflow-y:auto}
-  .logo{display:flex;align-items:center;gap:10px;margin-bottom:32px;padding:0 6px}
+  /* ============ APP LAYOUT ============ */
+  .app{display:none;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
+  .app.active{display:grid}
+
+  .sidebar{background:var(--surface);border-right:1px solid var(--line-soft);padding:22px 16px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:30;overflow-y:auto}
+  .logo{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:0 6px}
   .logo .mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--rose));display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 6px 16px rgba(232,123,107,.35)}
   .logo .name{font-family:'DM Serif Display',serif;font-size:20px;line-height:1;color:var(--text)}
   .logo .name small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-mute);margin-top:4px;font-weight:600}
+
+  .user-card{
+    background:linear-gradient(135deg,var(--primary-soft),var(--surface-2));
+    border:1px solid var(--line-soft);border-radius:14px;padding:12px;margin-bottom:14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .user-card .avatar{
+    width:36px;height:36px;border-radius:10px;
+    background:linear-gradient(135deg,var(--accent),var(--rose));
+    color:white;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:14px;flex-shrink:0;
+  }
+  .user-card .info{flex:1;min-width:0}
+  .user-card .name{font-size:13px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .user-card .role{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);font-weight:600}
+  .user-card .role.admin{color:var(--primary-dark)}
+
+  /* Selector estilista (admin) */
+  .stylist-selector{margin-bottom:14px}
+  .stylist-selector .lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mute);font-weight:700;margin-bottom:6px;padding:0 4px}
+  .stylist-selector select{
+    width:100%;background:var(--surface-2);border:1.5px solid var(--line-soft);
+    border-radius:10px;padding:10px 12px;font-size:13px;font-weight:600;color:var(--text);
+    outline:none;cursor:pointer;appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a08a85' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;
+  }
+  .stylist-selector select:focus{border-color:var(--primary)}
 
   .cloud-status{display:flex;align-items:center;gap:6px;padding:6px 10px;margin-bottom:14px;border-radius:8px;background:var(--mint-soft);font-size:11px;color:var(--mint-dark);font-weight:600}
   .cloud-status.error{background:var(--rose-soft);color:var(--primary-dark)}
@@ -45,10 +96,13 @@
   .cloud-status.error .dot{background:var(--primary-dark);box-shadow:0 0 0 3px rgba(232,123,107,.25)}
 
   .nav{display:flex;flex-direction:column;gap:4px}
-  .nav button{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:var(--text-2);font-size:14px;font-weight:500;text-align:left;transition:all .2s}
+  .nav button{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;color:var(--text-2);font-size:14px;font-weight:500;text-align:left;transition:all .2s}
   .nav button:hover{background:var(--surface-2);color:var(--text)}
   .nav button.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;box-shadow:0 6px 16px rgba(232,123,107,.32)}
-  .nav button svg{width:20px;height:20px;flex-shrink:0}
+  .nav button svg{width:18px;height:18px;flex-shrink:0}
+  .nav .admin-only{display:none}
+  .app[data-role="admin"] .nav .admin-only{display:flex}
+  .app[data-role="stylist"] .nav .stylist-only-disabled{display:none}
 
   .sidebar-foot{margin-top:auto;padding-top:18px;border-top:1px solid var(--line-soft)}
   .rate-mini{background:var(--surface-2);border:1px solid var(--line-soft);border-radius:14px;padding:12px;margin-bottom:8px}
@@ -58,12 +112,12 @@
   .rate-mini .row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0}
   .rate-mini .row .k{color:var(--text-2);font-weight:500}
   .rate-mini .row .v{font-weight:600;color:var(--text)}
-  .btn-refresh{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line-soft);font-size:12px;color:var(--text-2);font-weight:600;transition:all .2s}
+  .btn-refresh{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line-soft);font-size:11px;color:var(--text-2);font-weight:600;transition:all .2s}
   .btn-refresh:hover{background:var(--primary-soft);color:var(--primary-dark);border-color:var(--primary-soft)}
   .btn-refresh.loading svg{animation:spin 1s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
-  .gear-btn{margin-top:8px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border-radius:10px;font-size:12px;color:var(--text-mute);font-weight:500}
-  .gear-btn:hover{color:var(--text)}
+  .gear-btn,.logout-btn{margin-top:6px;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px;border-radius:10px;font-size:11px;color:var(--text-mute);font-weight:500}
+  .gear-btn:hover,.logout-btn:hover{color:var(--text);background:var(--surface-2)}
 
   .main{padding:30px 36px 60px;max-width:980px}
   .page-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:24px;gap:14px;flex-wrap:wrap}
@@ -119,6 +173,7 @@
   .btn-primary{width:100%;margin-top:18px;padding:16px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;font-weight:700;font-size:15px;letter-spacing:.02em;box-shadow:0 8px 20px rgba(232,123,107,.32);transition:all .15s}
   .btn-primary:active{transform:scale(.985);box-shadow:0 4px 12px rgba(232,123,107,.32)}
   .btn-primary.green{background:linear-gradient(135deg,var(--mint),var(--mint-dark));box-shadow:0 8px 20px rgba(127,197,164,.32)}
+  .btn-primary.full{margin-top:0}
   .btn-secondary{width:100%;padding:13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--text-2);font-weight:600;font-size:13px}
 
   .filter-bar{display:flex;gap:8px;overflow-x:auto;margin-bottom:18px;scrollbar-width:none}
@@ -181,12 +236,9 @@
   .pb .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);font-weight:700}
   .pb .v{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);margin-top:6px;line-height:1.1}
   .pb .pct{font-size:11px;font-weight:700;margin-top:4px}
-  .pb.zelle{background:var(--accent-soft)}
-  .pb.zelle .pct{color:#7d6ab0}
-  .pb.efectivo{background:var(--mint-soft)}
-  .pb.efectivo .pct{color:var(--mint-dark)}
-  .pb.bs{background:var(--sun-soft)}
-  .pb.bs .pct{color:#b8801c}
+  .pb.zelle{background:var(--accent-soft)}.pb.zelle .pct{color:#7d6ab0}
+  .pb.efectivo{background:var(--mint-soft)}.pb.efectivo .pct{color:var(--mint-dark)}
+  .pb.bs{background:var(--sun-soft)}.pb.bs .pct{color:#b8801c}
 
   .chart{margin-top:14px;height:130px;display:flex;align-items:flex-end;gap:8px;padding:14px 0 0}
   .bar{flex:1;background:linear-gradient(180deg,var(--primary),var(--rose));border-radius:8px 8px 4px 4px;min-height:4px;position:relative}
@@ -199,6 +251,54 @@
   .empty.green .ico{background:var(--mint-soft);color:var(--mint-dark)}
   .empty .ttl{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text-2);margin-bottom:6px}
   .empty .txt{font-size:13px}
+
+  /* ============ ESTILISTAS LIST (admin) ============ */
+  .stylist-list{margin-top:14px}
+  .stylist-item{
+    display:flex;align-items:center;gap:14px;
+    padding:14px;background:var(--surface-2);border:1px solid var(--line-soft);
+    border-radius:14px;margin-bottom:8px;
+  }
+  .stylist-item .avatar-md{
+    width:48px;height:48px;border-radius:14px;
+    background:linear-gradient(135deg,var(--accent),var(--rose));
+    color:white;display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:16px;flex-shrink:0;
+  }
+  .stylist-item .info{flex:1;min-width:0}
+  .stylist-item .name{font-weight:700;color:var(--text);font-size:14px}
+  .stylist-item .email{font-size:12px;color:var(--text-mute);font-weight:500}
+  .stylist-item .badge{
+    padding:4px 10px;border-radius:100px;font-size:10px;font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;
+  }
+  .stylist-item .badge.active{background:var(--mint-soft);color:var(--mint-dark)}
+  .stylist-item .badge.pending{background:var(--sun-soft);color:#b8801c}
+  .stylist-item .actions{display:flex;gap:6px}
+  .stylist-item .actions button{
+    width:32px;height:32px;border-radius:8px;background:var(--surface);
+    border:1px solid var(--line-soft);color:var(--text-mute);
+    display:flex;align-items:center;justify-content:center;transition:all .2s;
+  }
+  .stylist-item .actions button:hover{color:var(--primary-dark);border-color:var(--primary-soft)}
+  .stylist-item .actions button.danger:hover{color:var(--primary-dark);background:var(--rose-soft);border-color:var(--rose-soft)}
+
+  .invite-link-box{
+    background:linear-gradient(135deg,var(--accent-soft),var(--surface-2));
+    border:1.5px dashed var(--accent);border-radius:14px;padding:16px;margin-top:14px;
+  }
+  .invite-link-box .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:8px}
+  .invite-link-box .link-row{display:flex;gap:8px;align-items:stretch}
+  .invite-link-box input{
+    flex:1;background:white;border:1px solid var(--line-soft);border-radius:10px;
+    padding:10px 12px;font-size:12px;color:var(--text);font-family:monospace;
+    outline:none;
+  }
+  .invite-link-box .copy-btn{
+    padding:0 16px;border-radius:10px;background:var(--accent);color:white;font-weight:700;font-size:13px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .invite-link-box .hint{font-size:11px;color:var(--text-mute);margin-top:8px}
 
   .modal-bg{position:fixed;inset:0;background:rgba(61,42,38,.4);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:50;animation:fadeIn .25s ease;padding:20px}
   .modal-bg.active{display:flex}
@@ -215,9 +315,17 @@
   .scrim{display:none;position:fixed;inset:0;background:rgba(61,42,38,.4);backdrop-filter:blur(4px);z-index:25}
   .scrim.active{display:block}
 
+  .loading-screen{
+    position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:200;
+  }
+  .loading-screen .spinner{
+    width:40px;height:40px;border:3px solid var(--line);border-top-color:var(--primary);
+    border-radius:50%;animation:spin 1s linear infinite;
+  }
+
   @media (max-width:820px){
     .app{grid-template-columns:1fr}
-    .sidebar{position:fixed;top:0;left:0;height:100vh;width:260px;transform:translateX(-100%);transition:transform .3s ease;box-shadow:var(--shadow-lg)}
+    .sidebar{position:fixed;top:0;left:0;height:100vh;width:280px;transform:translateX(-100%);transition:transform .3s ease;box-shadow:var(--shadow-lg)}
     .sidebar.open{transform:translateX(0)}
     .menu-toggle{display:flex}
     .main{padding:70px 18px 80px}
@@ -234,18 +342,85 @@
 </head>
 <body>
 
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen"><div class="spinner"></div></div>
+
+<!-- ============ AUTH: LOGIN ============ -->
+<div class="auth-wrap" id="authLogin" style="display:none">
+  <div class="auth-card">
+    <div class="logo-big">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+    </div>
+    <h1>Salón <em>Cuentas</em></h1>
+    <div class="auth-sub">Inicia sesión para continuar</div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="loginEmail" placeholder="tu@email.com" autocomplete="email" />
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+    <div class="auth-error" id="loginError"></div>
+    <button class="btn-primary full" id="btnLogin" style="margin-top:18px">Entrar</button>
+  </div>
+</div>
+
+<!-- ============ AUTH: ACCEPT INVITE ============ -->
+<div class="auth-wrap" id="authInvite" style="display:none">
+  <div class="auth-card">
+    <div class="logo-big">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <h1>¡Bienvenida <em>al equipo</em>!</h1>
+    <div class="auth-sub" id="inviteSubtitle">Crea tu cuenta para empezar</div>
+
+    <div class="field">
+      <label>Tu nombre</label>
+      <input type="text" id="inviteName" placeholder="Tu nombre completo" />
+    </div>
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="inviteEmail" placeholder="tu@email.com" autocomplete="email" />
+    </div>
+    <div class="field">
+      <label>Crea tu contraseña</label>
+      <input type="password" id="invitePass" placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+    </div>
+    <div class="auth-error" id="inviteError"></div>
+    <button class="btn-primary full" id="btnAcceptInvite" style="margin-top:18px">Crear mi cuenta</button>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
 <button class="menu-toggle" id="menuToggle" aria-label="Menú">
   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
 </button>
 <div class="scrim" id="scrim"></div>
 
-<div class="app">
+<div class="app" id="appRoot">
   <aside class="sidebar" id="sidebar">
     <div class="logo">
       <div class="mark">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
       </div>
       <div class="name">Salón<small>Cuentas</small></div>
+    </div>
+
+    <!-- USER INFO -->
+    <div class="user-card">
+      <div class="avatar" id="userAvatar">A</div>
+      <div class="info">
+        <div class="name" id="userName">Admin</div>
+        <div class="role admin" id="userRole">ADMIN</div>
+      </div>
+    </div>
+
+    <!-- SELECTOR ESTILISTA (solo admin) -->
+    <div class="stylist-selector admin-only" id="stylistSelectorWrap" style="display:none">
+      <div class="lbl">Viendo cuenta de</div>
+      <select id="stylistSelector"></select>
     </div>
 
     <div class="cloud-status" id="cloudStatus">
@@ -270,6 +445,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
         Historial
       </button>
+      <button data-tab="estilistas" class="admin-only">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Estilistas
+      </button>
     </nav>
 
     <div class="sidebar-foot">
@@ -287,6 +466,10 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.36.65.94 1.13 1.66 1.31H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
         Configuración
       </button>
+      <button class="logout-btn" id="btnLogout">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Cerrar sesión
+      </button>
     </div>
   </aside>
 
@@ -295,8 +478,8 @@
     <section class="screen active" id="tab-dashboard">
       <div class="page-head">
         <div>
-          <h1 class="ttl">Hola <em>bonita</em> ✨</h1>
-          <div class="sub">Tu resumen general</div>
+          <h1 class="ttl" id="dashboardTitle">Hola <em>bonita</em> ✨</h1>
+          <div class="sub" id="dashboardSub">Tu resumen general</div>
         </div>
       </div>
 
@@ -320,38 +503,28 @@
 
       <div class="card">
         <h2 class="serif">Esta semana</h2>
-        <p class="sub">Cobros registrados y reparto</p>
-
+        <p class="sub">Cobros y reparto</p>
         <div class="balance-rows">
           <div class="balance-row">
             <div class="label">
               <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
               <div><div class="name">Total cobrado</div><div class="desc" id="sCountTxt">0 consultas</div></div>
             </div>
-            <div class="vals">
-              <div class="v1 num" id="sTotalSem">$0.00</div>
-              <div class="v2 num" id="sTotalSemBs">Bs 0</div>
-            </div>
+            <div class="vals"><div class="v1 num" id="sTotalSem">$0.00</div><div class="v2 num" id="sTotalSemBs">Bs 0</div></div>
           </div>
           <div class="balance-row">
             <div class="label">
               <div class="ico" style="background:var(--primary-soft);color:var(--primary-dark)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
               <div><div class="name">Estilista</div><div class="desc" id="sStylistPct">70%</div></div>
             </div>
-            <div class="vals">
-              <div class="v1 num" id="sStylist">$0.00</div>
-              <div class="v2 num" id="sStylistBs">Bs 0</div>
-            </div>
+            <div class="vals"><div class="v1 num" id="sStylist">$0.00</div><div class="v2 num" id="sStylistBs">Bs 0</div></div>
           </div>
           <div class="balance-row">
             <div class="label">
               <div class="ico" style="background:var(--mint-soft);color:var(--mint-dark)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/></svg></div>
-              <div><div class="name">Tu parte</div><div class="desc" id="sMinePct">30% — lo que te debe</div></div>
+              <div><div class="name">Para admin</div><div class="desc" id="sMinePct">30% — pendiente</div></div>
             </div>
-            <div class="vals">
-              <div class="v1 num pending" id="sMine">$0.00</div>
-              <div class="v2 num" id="sMineBs">Bs 0</div>
-            </div>
+            <div class="vals"><div class="v1 num pending" id="sMine">$0.00</div><div class="v2 num" id="sMineBs">Bs 0</div></div>
           </div>
         </div>
       </div>
@@ -378,82 +551,34 @@
       <div class="page-head">
         <div>
           <h1 class="ttl">Nuevo <em>cobro</em></h1>
-          <div class="sub">Registra una consulta del estilista</div>
+          <div class="sub">Registra una consulta</div>
         </div>
       </div>
-
       <div class="card">
-        <div class="field">
-          <label>Descripción</label>
-          <input type="text" id="iDesc" placeholder="Corte, tinte, peinado…" autocomplete="off" />
-        </div>
-
+        <div class="field"><label>Descripción</label><input type="text" id="iDesc" placeholder="Corte, tinte, peinado…" autocomplete="off" /></div>
         <div class="field">
           <label>Método de pago del cliente</label>
           <div class="chips" id="payChips">
-            <button type="button" class="chip active" data-pay="zelle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
-              Zelle
-            </button>
-            <button type="button" class="chip" data-pay="efectivo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-              Efectivo $
-            </button>
-            <button type="button" class="chip" data-pay="bs">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H7m0 0h8a3 3 0 0 1 0 6H7"/></svg>
-              Bolívares
-            </button>
+            <button type="button" class="chip active" data-pay="zelle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>Zelle</button>
+            <button type="button" class="chip" data-pay="efectivo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>Efectivo $</button>
+            <button type="button" class="chip" data-pay="bs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H7m0 0h8a3 3 0 0 1 0 6H7"/></svg>Bolívares</button>
           </div>
         </div>
-
-        <div id="usdField" class="field">
-          <label>Monto en dólares</label>
-          <input type="number" inputmode="decimal" step="0.01" id="iUsd" placeholder="0.00" />
-        </div>
-
+        <div id="usdField" class="field"><label>Monto en dólares</label><input type="number" inputmode="decimal" step="0.01" id="iUsd" placeholder="0.00" /></div>
         <div id="bsField" class="field" style="display:none">
           <label>Tasa a aplicar</label>
           <div class="rate-grid" id="rateGrid">
-            <button type="button" class="rate-card active" data-rate="bcv">
-              <div class="rname">BCV $</div>
-              <div class="rval num" id="rBcv">—</div>
-              <div class="rsource">Oficial · USD</div>
-            </button>
-            <button type="button" class="rate-card" data-rate="bcvEur">
-              <div class="rname">BCV €</div>
-              <div class="rval num" id="rBcvEur">—</div>
-              <div class="rsource">Oficial · EUR</div>
-            </button>
-            <button type="button" class="rate-card" data-rate="binance">
-              <div class="rname">Binance</div>
-              <div class="rval num" id="rBinance">—</div>
-              <div class="rsource">Mercado · USDT</div>
-            </button>
-            <button type="button" class="rate-card custom" data-rate="custom">
-              <div class="rname">Mi tasa</div>
-              <input type="number" step="0.01" class="custom-input num" id="customRate" placeholder="500" />
-              <div class="rsource">Personalizada</div>
-            </button>
+            <button type="button" class="rate-card active" data-rate="bcv"><div class="rname">BCV $</div><div class="rval num" id="rBcv">—</div><div class="rsource">Oficial · USD</div></button>
+            <button type="button" class="rate-card" data-rate="bcvEur"><div class="rname">BCV €</div><div class="rval num" id="rBcvEur">—</div><div class="rsource">Oficial · EUR</div></button>
+            <button type="button" class="rate-card" data-rate="binance"><div class="rname">Binance</div><div class="rval num" id="rBinance">—</div><div class="rsource">Mercado · USDT</div></button>
+            <button type="button" class="rate-card custom" data-rate="custom"><div class="rname">Mi tasa</div><input type="number" step="0.01" class="custom-input num" id="customRate" placeholder="500" /><div class="rsource">Personalizada</div></button>
           </div>
-          <div class="field" style="margin-top:14px">
-            <label>Monto en bolívares</label>
-            <input type="number" inputmode="decimal" step="0.01" id="iBs" placeholder="0,00" />
-          </div>
+          <div class="field" style="margin-top:14px"><label>Monto en bolívares</label><input type="number" inputmode="decimal" step="0.01" id="iBs" placeholder="0,00" /></div>
         </div>
-
         <div class="preview">
-          <div class="col">
-            <div class="lbl">Total cobrado</div>
-            <div class="v1 num" id="prevMain">$0.00</div>
-            <div class="v2 num" id="prevSec">Bs 0,00</div>
-          </div>
-          <div class="col right">
-            <div class="lbl" id="prevMineLbl">Tu parte (30%)</div>
-            <div class="v1 num" id="prevMine">$0.00</div>
-            <div class="v2 num" id="prevMineBs">Bs 0,00</div>
-          </div>
+          <div class="col"><div class="lbl">Total cobrado</div><div class="v1 num" id="prevMain">$0.00</div><div class="v2 num" id="prevSec">Bs 0,00</div></div>
+          <div class="col right"><div class="lbl" id="prevMineLbl">Para admin (30%)</div><div class="v1 num" id="prevMine">$0.00</div><div class="v2 num" id="prevMineBs">Bs 0,00</div></div>
         </div>
-
         <button class="btn-primary" id="btnSave">Guardar cobro</button>
       </div>
     </section>
@@ -462,99 +587,48 @@
       <div class="page-head">
         <div>
           <h1 class="ttl">Pagos <em>recibidos</em></h1>
-          <div class="sub">Registra cuando el estilista te paga tu parte</div>
+          <div class="sub" id="pagosSub">Registra cuando se paga</div>
         </div>
       </div>
-
       <div class="stat-grid" style="grid-template-columns:1fr">
         <div class="stat warn">
-          <div class="lbl">Saldo pendiente que te debe</div>
+          <div class="lbl" id="pDebeLabel">Saldo pendiente</div>
           <div class="val num" id="pDebeTotal">$0</div>
           <div class="sub num" id="pDebeTotalBs">Bs 0</div>
         </div>
       </div>
-
       <div class="card">
         <h2 class="serif">Registrar nuevo pago</h2>
-        <p class="sub">Cuando el estilista te paga tu 30%</p>
-
-        <div class="field">
-          <label>Nota (opcional)</label>
-          <input type="text" id="payDesc" placeholder="Pago semana del 15…" autocomplete="off" />
-        </div>
-
+        <p class="sub" id="pagoFormSub">Cuando se paga el 30%</p>
+        <div class="field"><label>Nota (opcional)</label><input type="text" id="payDesc" placeholder="Pago semana del 15…" autocomplete="off" /></div>
         <div class="field">
           <label>Método de pago</label>
           <div class="chips" id="payChipsP">
-            <button type="button" class="chip active" data-pay="zelle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
-              Zelle
-            </button>
-            <button type="button" class="chip" data-pay="efectivo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-              Efectivo $
-            </button>
-            <button type="button" class="chip" data-pay="bs">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H7m0 0h8a3 3 0 0 1 0 6H7"/></svg>
-              Bolívares
-            </button>
+            <button type="button" class="chip active" data-pay="zelle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>Zelle</button>
+            <button type="button" class="chip" data-pay="efectivo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>Efectivo $</button>
+            <button type="button" class="chip" data-pay="bs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H7m0 0h8a3 3 0 0 1 0 6H7"/></svg>Bolívares</button>
           </div>
         </div>
-
-        <div id="usdFieldP" class="field">
-          <label>Monto en dólares</label>
-          <input type="number" inputmode="decimal" step="0.01" id="payUsd" placeholder="0.00" />
-        </div>
-
+        <div id="usdFieldP" class="field"><label>Monto en dólares</label><input type="number" inputmode="decimal" step="0.01" id="payUsd" placeholder="0.00" /></div>
         <div id="bsFieldP" class="field" style="display:none">
           <label>Tasa a aplicar</label>
           <div class="rate-grid" id="rateGridP">
-            <button type="button" class="rate-card active" data-rate="bcv">
-              <div class="rname">BCV $</div>
-              <div class="rval num" id="rBcvP">—</div>
-              <div class="rsource">Oficial · USD</div>
-            </button>
-            <button type="button" class="rate-card" data-rate="bcvEur">
-              <div class="rname">BCV €</div>
-              <div class="rval num" id="rBcvEurP">—</div>
-              <div class="rsource">Oficial · EUR</div>
-            </button>
-            <button type="button" class="rate-card" data-rate="binance">
-              <div class="rname">Binance</div>
-              <div class="rval num" id="rBinanceP">—</div>
-              <div class="rsource">Mercado · USDT</div>
-            </button>
-            <button type="button" class="rate-card custom" data-rate="custom">
-              <div class="rname">Mi tasa</div>
-              <input type="number" step="0.01" class="custom-input num" id="customRateP" placeholder="500" />
-              <div class="rsource">Personalizada</div>
-            </button>
+            <button type="button" class="rate-card active" data-rate="bcv"><div class="rname">BCV $</div><div class="rval num" id="rBcvP">—</div><div class="rsource">Oficial · USD</div></button>
+            <button type="button" class="rate-card" data-rate="bcvEur"><div class="rname">BCV €</div><div class="rval num" id="rBcvEurP">—</div><div class="rsource">Oficial · EUR</div></button>
+            <button type="button" class="rate-card" data-rate="binance"><div class="rname">Binance</div><div class="rval num" id="rBinanceP">—</div><div class="rsource">Mercado · USDT</div></button>
+            <button type="button" class="rate-card custom" data-rate="custom"><div class="rname">Mi tasa</div><input type="number" step="0.01" class="custom-input num" id="customRateP" placeholder="500" /><div class="rsource">Personalizada</div></button>
           </div>
-          <div class="field" style="margin-top:14px">
-            <label>Monto en bolívares</label>
-            <input type="number" inputmode="decimal" step="0.01" id="payBs" placeholder="0,00" />
-          </div>
+          <div class="field" style="margin-top:14px"><label>Monto en bolívares</label><input type="number" inputmode="decimal" step="0.01" id="payBs" placeholder="0,00" /></div>
         </div>
-
         <div class="preview green">
-          <div class="col">
-            <div class="lbl">Pago a registrar</div>
-            <div class="v1 num" id="prevPayMain">$0.00</div>
-            <div class="v2 num" id="prevPaySec">Bs 0,00</div>
-          </div>
-          <div class="col right">
-            <div class="lbl">Saldo después del pago</div>
-            <div class="v1 num" id="prevPayBalance">$0.00</div>
-            <div class="v2 num" id="prevPayBalanceBs">Bs 0,00</div>
-          </div>
+          <div class="col"><div class="lbl">Pago a registrar</div><div class="v1 num" id="prevPayMain">$0.00</div><div class="v2 num" id="prevPaySec">Bs 0,00</div></div>
+          <div class="col right"><div class="lbl">Saldo después del pago</div><div class="v1 num" id="prevPayBalance">$0.00</div><div class="v2 num" id="prevPayBalanceBs">Bs 0,00</div></div>
         </div>
-
         <button class="btn-primary green" id="btnSavePay">Registrar pago</button>
       </div>
-
       <div class="card" style="margin-top:14px">
         <h2 class="serif">Pagos recibidos</h2>
-        <p class="sub">Últimos pagos del estilista</p>
+        <p class="sub">Últimos pagos registrados</p>
         <div id="paymentsList" style="margin-top:14px"></div>
       </div>
     </section>
@@ -563,10 +637,9 @@
       <div class="page-head">
         <div>
           <h1 class="ttl">Historial</h1>
-          <div class="sub">Cobros y pagos, agrupados por semana</div>
+          <div class="sub">Cobros y pagos por semana</div>
         </div>
       </div>
-
       <div class="filter-bar" id="filterBar">
         <button class="active" data-filter="all">Todo</button>
         <button data-filter="cobros">Solo cobros</button>
@@ -577,22 +650,39 @@
       </div>
       <div id="historyList"></div>
     </section>
+
+    <!-- ESTILISTAS (admin) -->
+    <section class="screen" id="tab-estilistas">
+      <div class="page-head">
+        <div>
+          <h1 class="ttl">Tus <em>estilistas</em></h1>
+          <div class="sub">Invítalos y maneja sus cuentas</div>
+        </div>
+        <button class="btn-primary" style="margin:0;width:auto;padding:12px 18px" id="btnInvite">
+          + Invitar estilista
+        </button>
+      </div>
+      <div class="card">
+        <h2 class="serif">Equipo</h2>
+        <p class="sub">Quién está activo en tu salón</p>
+        <div class="stylist-list" id="stylistList"></div>
+      </div>
+    </section>
   </main>
 </div>
 
+<!-- MODAL CONFIG -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
     <h3 class="serif">Configuración</h3>
-    <p class="hint">Las tasas se actualizan solas. Aquí ajustas el reparto.</p>
-
+    <p class="hint" id="configHint">Ajustes de esta cuenta</p>
     <div style="padding:14px;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:14px;margin-bottom:14px">
       <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px;font-weight:700">Reparto del cobro</div>
       <div class="row-2">
         <div class="field" style="margin:0"><label>Estilista %</label><input type="number" id="setStylist" min="0" max="100" /></div>
-        <div class="field" style="margin:0"><label>Tu parte %</label><input type="number" id="setMine" min="0" max="100" /></div>
+        <div class="field" style="margin:0"><label>Admin %</label><input type="number" id="setMine" min="0" max="100" /></div>
       </div>
     </div>
-
     <div style="padding:14px;background:var(--surface-2);border:1px solid var(--line-soft);border-radius:14px;margin-bottom:14px">
       <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);margin-bottom:6px;font-weight:700">Tasas manuales (opcional)</div>
       <div style="font-size:12px;color:var(--text-mute);margin-bottom:10px">Solo si la API no responde</div>
@@ -600,9 +690,32 @@
       <div class="field"><label>BCV €</label><input type="number" step="0.01" id="setBcvEur" /></div>
       <div class="field"><label>Binance</label><input type="number" step="0.01" id="setBinance" /></div>
     </div>
-
     <button class="btn-primary" id="btnSaveSettings">Guardar cambios</button>
     <button class="btn-secondary" id="btnCloseSettings" style="margin-top:8px">Cancelar</button>
+  </div>
+</div>
+
+<!-- MODAL INVITAR -->
+<div class="modal-bg" id="modalInvite">
+  <div class="modal">
+    <h3 class="serif">Invitar estilista</h3>
+    <p class="hint">Genera un link único para invitar a un nuevo miembro del equipo</p>
+    <div class="field"><label>Nombre del estilista</label><input type="text" id="inviteNameInput" placeholder="Ej. María Pérez" /></div>
+    <button class="btn-primary" id="btnGenerateInvite">Generar link de invitación</button>
+    <div id="generatedLink" style="display:none">
+      <div class="invite-link-box" style="margin-top:18px">
+        <div class="lbl">✨ Link generado · cópialo y mándalo</div>
+        <div class="link-row">
+          <input type="text" id="inviteLinkInput" readonly />
+          <button class="copy-btn" id="btnCopyLink">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copiar
+          </button>
+        </div>
+        <div class="hint">El link expira en 7 días o cuando se use por primera vez</div>
+      </div>
+    </div>
+    <button class="btn-secondary" id="btnCloseInvite" style="margin-top:14px">Cerrar</button>
   </div>
 </div>
 
@@ -610,12 +723,16 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, setDoc, getDoc, serverTimestamp }
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+    signOut, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy,
+    setDoc, getDoc, getDocs, where, serverTimestamp, updateDoc
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  // ============================================
-  // 🔥 FIREBASE CONECTADO — proyecto: peluqueria-bda27
-  // ============================================
+  // ============ FIREBASE CONFIG ============
   const firebaseConfig = {
     apiKey: "AIzaSyAaGzWbc4cdf06BzfLIjePGr1FEH5Wc26o",
     authDomain: "peluqueria-bda27.firebaseapp.com",
@@ -625,26 +742,29 @@
     appId: "1:693118209966:web:5627e88406b4fcbaa5023f"
   };
 
-  let db = null;
-  let firebaseReady = false;
-  try {
-    const app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
-    firebaseReady = true;
-  } catch(e){
-    console.error("Firebase init error:", e);
-  }
+  const ADMIN_EMAILS = ["abraham1benza@gmail.com"]; // tu email de admin
 
+  const fbApp = initializeApp(firebaseConfig);
+  const auth = getAuth(fbApp);
+  const db = getFirestore(fbApp);
+
+  // ============ ESTADO ============
   const state = {
+    user: null,            // { uid, email, name, role: 'admin'|'stylist' }
+    viewingStylistId: null, // qué estilista está viendo el admin (null = sin selección)
+    stylists: [],          // lista de estilistas (para admin)
     entries: [],
-    settings: { bcv: 0, bcvEur: 0, binance: 0, stylist: 70, mine: 30, lastUpdate: null },
+    settings: { bcv:0, bcvEur:0, binance:0, stylist:70, mine:30, lastUpdate:null }, // tasas son globales, reparto es por estilista
+    globalRates: { bcv:0, bcvEur:0, binance:0 }, // siempre tasas globales
     payMethod: "zelle",
     rate: "bcv",
     payMethodP: "zelle",
     rateP: "bcv",
-    filter: "all"
+    filter: "all",
+    unsubscribers: [] // listeners activos para cleanup
   };
 
+  // ============ HELPERS ============
   const $ = s => document.querySelector(s);
   const $$ = s => document.querySelectorAll(s);
   const fmtUsd = n => "$" + (Number(n)||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -657,105 +777,367 @@
     const t = $("#toast"); t.textContent = msg; t.classList.add("show");
     setTimeout(()=>t.classList.remove("show"), 2500);
   }
-
   function setCloudStatus(text, error=false){
     $("#cloudStatusText").textContent = text;
     const el = $("#cloudStatus");
     if (error) el.classList.add("error"); else el.classList.remove("error");
   }
-
-  // ============ FIREBASE ============
-  async function initFirebase(){
-    if (!firebaseReady){
-      setCloudStatus("Sin conexión", true);
-      toast("Firebase no se pudo iniciar");
-      return;
-    }
-    try {
-      const settingsRef = doc(db, "config", "settings");
-      const snap = await getDoc(settingsRef);
-      if (snap.exists()) state.settings = {...state.settings, ...snap.data()};
-      else await setDoc(settingsRef, state.settings);
-
-      onSnapshot(settingsRef, s => {
-        if (s.exists()){ state.settings = {...state.settings, ...s.data()}; renderAll(); }
-      }, err => {
-        console.error(err);
-        setCloudStatus("Error de permisos", true);
-      });
-
-      const q = query(collection(db, "entries"), orderBy("createdAt","desc"));
-      onSnapshot(q, snap => {
-        state.entries = snap.docs.map(d => ({id:d.id, ...d.data()}));
-        state.entries.forEach(en => { if(!en.type) en.type = "charge"; });
-        renderAll();
-        setCloudStatus("Conectado a la nube");
-      }, err => {
-        console.error(err);
-        setCloudStatus("Error de permisos", true);
-        toast("Revisa las reglas de Firestore");
-      });
-    } catch(err){
-      console.error(err);
-      setCloudStatus("Error de conexión", true);
-      toast("Error conectando con Firebase");
-    }
+  function genId(len=10){
+    const chars = "ABCDEFGHJKMNPQRSTUVWXYZ23456789abcdefghjkmnpqrstuvwxyz";
+    let s = ""; for(let i=0;i<len;i++) s += chars[Math.floor(Math.random()*chars.length)];
+    return s;
+  }
+  function getInitial(name){
+    return (name||"?").trim().charAt(0).toUpperCase();
   }
 
-  // ============ TASAS ============
+  // ============ CLEANUP DE LISTENERS ============
+  function clearListeners(){
+    state.unsubscribers.forEach(unsub => { try{ unsub(); }catch(e){} });
+    state.unsubscribers = [];
+  }
+
+  // ============ INVITE HANDLING ============
+  function checkInviteParam(){
+    const params = new URLSearchParams(window.location.search);
+    return params.get("invite");
+  }
+
+  async function loadInvite(token){
+    try{
+      const ref = doc(db, "invites", token);
+      const snap = await getDoc(ref);
+      if (!snap.exists()) return null;
+      const data = snap.data();
+      if (data.usedAt) return { error: "Este link ya fue usado" };
+      // 7 días
+      if (data.createdAtMs && Date.now() - data.createdAtMs > 7*24*60*60*1000){
+        return { error: "Este link expiró" };
+      }
+      return data;
+    }catch(e){ console.error(e); return { error: "Link inválido" }; }
+  }
+
+  // ============ AUTH FLOW ============
+  function showLoading(show){ $("#loadingScreen").style.display = show ? "flex" : "none"; }
+  function showLogin(){
+    $("#authLogin").style.display = "flex";
+    $("#authInvite").style.display = "none";
+    $("#appRoot").classList.remove("active");
+  }
+  function showInvite(invite){
+    $("#authInvite").style.display = "flex";
+    $("#authLogin").style.display = "none";
+    $("#appRoot").classList.remove("active");
+    $("#inviteSubtitle").innerHTML = `Hola <strong>${invite.name}</strong>, crea tu cuenta`;
+    $("#inviteName").value = invite.name || "";
+  }
+  function showApp(){
+    $("#authLogin").style.display = "none";
+    $("#authInvite").style.display = "none";
+    $("#appRoot").classList.add("active");
+  }
+
+  $("#btnLogin").addEventListener("click", async ()=>{
+    const email = $("#loginEmail").value.trim();
+    const pass = $("#loginPass").value;
+    const err = $("#loginError"); err.classList.remove("show");
+    if (!email || !pass){ err.textContent = "Llena email y contraseña"; err.classList.add("show"); return; }
+    try{
+      await signInWithEmailAndPassword(auth, email, pass);
+    }catch(e){
+      console.error(e);
+      err.textContent = e.code === "auth/invalid-credential" ? "Email o contraseña incorrectos" : "Error al iniciar sesión";
+      err.classList.add("show");
+    }
+  });
+
+  $("#btnAcceptInvite").addEventListener("click", async ()=>{
+    const name = $("#inviteName").value.trim();
+    const email = $("#inviteEmail").value.trim();
+    const pass = $("#invitePass").value;
+    const err = $("#inviteError"); err.classList.remove("show");
+    if (!name || !email || !pass){ err.textContent = "Llena todos los campos"; err.classList.add("show"); return; }
+    if (pass.length < 6){ err.textContent = "Contraseña mínimo 6 caracteres"; err.classList.add("show"); return; }
+    const token = checkInviteParam();
+    if (!token){ err.textContent = "Falta el token de invitación"; err.classList.add("show"); return; }
+
+    try{
+      // 1. Crear cuenta
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      const uid = cred.user.uid;
+
+      // 2. Crear documento del estilista
+      await setDoc(doc(db, "stylists", uid), {
+        uid, name, email,
+        role: "stylist",
+        active: true,
+        createdAtMs: Date.now(),
+        settings: { stylist: 70, mine: 30 } // reparto por defecto
+      });
+
+      // 3. Marcar invite como usado
+      await updateDoc(doc(db, "invites", token), {
+        usedAt: Date.now(),
+        usedByUid: uid
+      });
+
+      // 4. Limpiar URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+
+      toast(`¡Bienvenida, ${name}!`);
+    }catch(e){
+      console.error(e);
+      let msg = "Error al crear cuenta";
+      if (e.code === "auth/email-already-in-use") msg = "Ese email ya está registrado";
+      else if (e.code === "auth/weak-password") msg = "Contraseña muy débil";
+      else if (e.code === "auth/invalid-email") msg = "Email inválido";
+      err.textContent = msg; err.classList.add("show");
+    }
+  });
+
+  $("#btnLogout").addEventListener("click", async ()=>{
+    if (!confirm("¿Cerrar sesión?")) return;
+    clearListeners();
+    await signOut(auth);
+  });
+
+  // ============ AUTH LISTENER (entrypoint) ============
+  onAuthStateChanged(auth, async (firebaseUser) => {
+    showLoading(true);
+    clearListeners();
+
+    if (!firebaseUser){
+      // No logueada — ¿hay invite?
+      const inviteToken = checkInviteParam();
+      if (inviteToken){
+        const invite = await loadInvite(inviteToken);
+        if (invite && !invite.error){
+          showInvite(invite);
+          showLoading(false);
+          return;
+        } else if (invite && invite.error){
+          alert(invite.error);
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+      showLogin();
+      showLoading(false);
+      return;
+    }
+
+    // Está logueada — determinar rol
+    const isAdmin = ADMIN_EMAILS.includes(firebaseUser.email);
+
+    if (isAdmin){
+      state.user = {
+        uid: firebaseUser.uid,
+        email: firebaseUser.email,
+        name: "Admin",
+        role: "admin"
+      };
+      // Asegurar que existe doc de admin
+      const adminRef = doc(db, "admins", firebaseUser.uid);
+      const snap = await getDoc(adminRef);
+      if (!snap.exists()){
+        await setDoc(adminRef, {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          createdAtMs: Date.now()
+        });
+      }
+    } else {
+      // Buscar como estilista
+      const stylistRef = doc(db, "stylists", firebaseUser.uid);
+      const snap = await getDoc(stylistRef);
+      if (snap.exists()){
+        const d = snap.data();
+        state.user = {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          name: d.name || "Estilista",
+          role: "stylist"
+        };
+      } else {
+        toast("Cuenta no autorizada");
+        await signOut(auth);
+        return;
+      }
+    }
+
+    initApp();
+    showApp();
+    showLoading(false);
+  });
+
+  // ============ INIT APP (después de login) ============
+  function initApp(){
+    // Setup user card
+    $("#userAvatar").textContent = getInitial(state.user.name);
+    $("#userName").textContent = state.user.name;
+    $("#userRole").textContent = state.user.role === "admin" ? "ADMIN" : "ESTILISTA";
+    $("#userRole").className = "role " + (state.user.role === "admin" ? "admin" : "");
+
+    $("#appRoot").setAttribute("data-role", state.user.role);
+
+    if (state.user.role === "admin"){
+      $("#stylistSelectorWrap").style.display = "block";
+      loadStylists();
+    } else {
+      $("#stylistSelectorWrap").style.display = "none";
+      state.viewingStylistId = state.user.uid;
+      loadStylistData(state.viewingStylistId);
+    }
+
+    loadGlobalRates();
+    fetchRates(true);
+  }
+
+  // ============ ADMIN: cargar lista de estilistas ============
+  function loadStylists(){
+    const q = query(collection(db, "stylists"), orderBy("createdAtMs","desc"));
+    const unsub = onSnapshot(q, snap => {
+      state.stylists = snap.docs.map(d => ({...d.data(), id:d.id}));
+      renderStylistSelector();
+      renderStylistList();
+      // Auto-seleccionar el primero si ninguno
+      if (!state.viewingStylistId && state.stylists.length){
+        state.viewingStylistId = state.stylists[0].uid;
+        $("#stylistSelector").value = state.viewingStylistId;
+        loadStylistData(state.viewingStylistId);
+      } else if (state.viewingStylistId && !state.stylists.find(s=>s.uid===state.viewingStylistId)){
+        state.viewingStylistId = state.stylists[0]?.uid || null;
+        if (state.viewingStylistId){
+          $("#stylistSelector").value = state.viewingStylistId;
+          loadStylistData(state.viewingStylistId);
+        }
+      }
+    }, err => {
+      console.error(err);
+      setCloudStatus("Error de permisos", true);
+    });
+    state.unsubscribers.push(unsub);
+  }
+
+  function renderStylistSelector(){
+    const sel = $("#stylistSelector");
+    if (!state.stylists.length){
+      sel.innerHTML = `<option value="">Sin estilistas</option>`;
+      return;
+    }
+    sel.innerHTML = state.stylists.map(s =>
+      `<option value="${s.uid}">${s.name}${s.active===false?" (inactivo)":""}</option>`
+    ).join("");
+    if (state.viewingStylistId) sel.value = state.viewingStylistId;
+  }
+
+  $("#stylistSelector").addEventListener("change", e => {
+    state.viewingStylistId = e.target.value;
+    loadStylistData(state.viewingStylistId);
+  });
+
+  // ============ CARGAR DATOS DE UN ESTILISTA ============
+  function loadStylistData(stylistId){
+    if (!stylistId) return;
+    // limpiar listeners previos de entries/settings (no tocamos los de stylists)
+    state.unsubscribers = state.unsubscribers.filter(u => {
+      if (u._tag === "stylistData"){ try{u();}catch(e){} return false; }
+      return true;
+    });
+    state.entries = [];
+
+    // Cargar settings del estilista
+    const stylistRef = doc(db, "stylists", stylistId);
+    const u1 = onSnapshot(stylistRef, snap => {
+      if (snap.exists()){
+        const d = snap.data();
+        state.settings = {
+          ...state.settings,
+          stylist: d.settings?.stylist ?? 70,
+          mine: d.settings?.mine ?? 30
+        };
+        renderAll();
+      }
+    });
+    u1._tag = "stylistData";
+    state.unsubscribers.push(u1);
+
+    // Cargar entries del estilista
+    const q = query(
+      collection(db, "entries"),
+      where("stylistId","==",stylistId),
+      orderBy("createdAt","desc")
+    );
+    const u2 = onSnapshot(q, snap => {
+      state.entries = snap.docs.map(d => ({id:d.id, ...d.data()}));
+      state.entries.forEach(en => { if(!en.type) en.type = "charge"; });
+      renderAll();
+      setCloudStatus("Conectado a la nube");
+    }, err => {
+      console.error(err);
+      setCloudStatus("Error", true);
+    });
+    u2._tag = "stylistData";
+    state.unsubscribers.push(u2);
+  }
+
+  // ============ TASAS GLOBALES ============
+  function loadGlobalRates(){
+    const ref = doc(db, "config", "globalRates");
+    const unsub = onSnapshot(ref, snap => {
+      if (snap.exists()){
+        const d = snap.data();
+        state.globalRates = { bcv: d.bcv||0, bcvEur: d.bcvEur||0, binance: d.binance||0 };
+        // copiar a settings para los renders
+        state.settings.bcv = state.globalRates.bcv;
+        state.settings.bcvEur = state.globalRates.bcvEur;
+        state.settings.binance = state.globalRates.binance;
+        state.settings.lastUpdate = d.lastUpdate;
+        renderAll();
+      }
+    });
+    state.unsubscribers.push(unsub);
+  }
+
   async function fetchRates(silent=false){
     const btn = $("#btnRefreshRates");
     btn.classList.add("loading");
     if(!silent) toast("Actualizando tasas…");
-
     try{
       const [resVe, resAll, resEur] = await Promise.all([
         fetch("https://ve.dolarapi.com/v1/dolares/oficial").catch(()=>null),
         fetch("https://ve.dolarapi.com/v1/dolares").catch(()=>null),
         fetch("https://ve.dolarapi.com/v1/euros/oficial").catch(()=>null)
       ]);
-
       let bcvUsd=0, bcvEur=0, binance=0;
-
-      if (resVe && resVe.ok){
-        const d = await resVe.json();
-        bcvUsd = d.promedio || d.venta || d.compra || 0;
-      }
-      if (resEur && resEur.ok){
-        const d = await resEur.json();
-        bcvEur = d.promedio || d.venta || d.compra || 0;
-      }
+      if (resVe && resVe.ok){ const d = await resVe.json(); bcvUsd = d.promedio || d.venta || d.compra || 0; }
+      if (resEur && resEur.ok){ const d = await resEur.json(); bcvEur = d.promedio || d.venta || d.compra || 0; }
       if (resAll && resAll.ok){
         const arr = await resAll.json();
         for (const it of arr){
           const n = (it.nombre||"").toLowerCase();
           const f = (it.fuente||"").toLowerCase();
-          if (!bcvEur && (n.includes("euro") || n.includes("eur"))){
-            bcvEur = it.promedio || it.venta || 0;
-          }
+          if (!bcvEur && (n.includes("euro") || n.includes("eur"))) bcvEur = it.promedio || it.venta || 0;
           if (n.includes("paralelo") || n.includes("binance") || f.includes("binance") || f.includes("paralelo")){
             const v = it.promedio || it.venta || it.compra || 0;
             if (v > binance) binance = v;
           }
         }
       }
-
-      if (bcvUsd) state.settings.bcv = Number(bcvUsd);
-      if (bcvEur) state.settings.bcvEur = Number(bcvEur);
-      if (binance) state.settings.binance = Number(binance);
-      state.settings.lastUpdate = Date.now();
-
-      if (firebaseReady){
-        await setDoc(doc(db,"config","settings"), state.settings, {merge:true});
+      if (bcvUsd || bcvEur || binance){
+        await setDoc(doc(db,"config","globalRates"), {
+          bcv: bcvUsd || state.globalRates.bcv,
+          bcvEur: bcvEur || state.globalRates.bcvEur,
+          binance: binance || state.globalRates.binance,
+          lastUpdate: Date.now()
+        }, {merge:true});
       }
-
-      renderAll();
       if(!silent) toast("Tasas actualizadas ✓");
     } catch(err){ console.error(err); toast("No se pudieron cargar las tasas"); }
     finally { btn.classList.remove("loading"); }
   }
 
-  // ============ HELPERS ============
+  // ============ HELPERS DATOS ============
   function entryUsd(e){ return Number(e.usd)||0; }
   function entryBs(e){
     if (e.method === "bs") return Number(e.bs)||0;
@@ -768,45 +1150,27 @@
   }
   function getWeekKey(date){
     const d = new Date(date); d.setHours(0,0,0,0);
-    const day = (d.getDay()+6)%7;
-    d.setDate(d.getDate()-day);
+    const day = (d.getDay()+6)%7; d.setDate(d.getDate()-day);
     return d.toISOString().slice(0,10);
   }
   function weekLabel(key){
-    const d = new Date(key);
-    const end = new Date(d); end.setDate(end.getDate()+6);
+    const d = new Date(key); const end = new Date(d); end.setDate(end.getDate()+6);
     const fmt = x => x.toLocaleDateString("es-VE",{day:"numeric",month:"short"});
     return `${fmt(d)} – ${fmt(end)}`;
   }
   function isThisWeek(d){ return getWeekKey(d) === getWeekKey(new Date()); }
-  function isThisMonth(d){
-    const now = new Date();
-    return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth();
-  }
-
+  function isThisMonth(d){ const now = new Date(); return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth(); }
   function calcOwed(entries){
     const minePct = (state.settings.mine||30)/100;
     let usd = 0, bs = 0;
     for (const e of entries){
-      if (e.type === "charge"){
-        usd += entryUsd(e) * minePct;
-        bs  += entryBs(e) * minePct;
-      } else if (e.type === "payment"){
-        usd -= entryUsd(e);
-        bs  -= entryBs(e);
-      }
+      if (e.type === "charge"){ usd += entryUsd(e) * minePct; bs += entryBs(e) * minePct; }
+      else if (e.type === "payment"){ usd -= entryUsd(e); bs -= entryBs(e); }
     }
     return { usd, bs };
   }
-
-  function getActiveRate(){
-    if (state.rate === "custom") return Number($("#customRate").value)||0;
-    return state.settings[state.rate]||0;
-  }
-  function getActiveRateP(){
-    if (state.rateP === "custom") return Number($("#customRateP").value)||0;
-    return state.settings[state.rateP]||0;
-  }
+  function getActiveRate(){ if (state.rate === "custom") return Number($("#customRate").value)||0; return state.settings[state.rate]||0; }
+  function getActiveRateP(){ if (state.rateP === "custom") return Number($("#customRateP").value)||0; return state.settings[state.rateP]||0; }
 
   // ============ RENDER ============
   function renderRates(){
@@ -816,24 +1180,40 @@
     $("#mBcv").textContent = v("bcv"); $("#mBcvEur").textContent = v("bcvEur"); $("#mBinance").textContent = v("binance");
   }
 
+  function renderHeaders(){
+    if (state.user.role === "admin"){
+      const stylist = state.stylists.find(s=>s.uid===state.viewingStylistId);
+      const sName = stylist?.name || "estilista";
+      $("#dashboardTitle").innerHTML = `Cuenta de <em>${sName}</em>`;
+      $("#dashboardSub").textContent = "Vista de admin · Lo que te debe este estilista";
+      $("#pDebeLabel").textContent = `Saldo pendiente que te debe ${sName}`;
+      $("#pagosSub").textContent = `Registra cuando ${sName} te pague`;
+      $("#pagoFormSub").textContent = `Cuando ${sName} te paga el ${state.settings.mine||30}%`;
+    } else {
+      $("#dashboardTitle").innerHTML = `Hola <em>${state.user.name}</em> ✨`;
+      $("#dashboardSub").textContent = "Tu resumen de la semana";
+      $("#pDebeLabel").textContent = "Lo que le debes al admin";
+      $("#pagosSub").textContent = "Registra cuando le pagues al admin";
+      $("#pagoFormSub").textContent = `Cuando le pagas el ${state.settings.mine||30}% al admin`;
+    }
+  }
+
   function renderPreview(){
     const usdInput = parseFloat($("#iUsd").value)||0;
     const bsInput  = parseFloat($("#iBs").value)||0;
     let usd=0, bs=0;
     if (state.payMethod === "bs"){
       const r = getActiveRate();
-      bs = bsInput;
-      usd = r > 0 ? bsInput / r : 0;
+      bs = bsInput; usd = r > 0 ? bsInput / r : 0;
     } else {
-      usd = usdInput;
-      bs = usdInput * (state.settings.bcv||0);
+      usd = usdInput; bs = usdInput * (state.settings.bcv||0);
     }
     const minePct = (state.settings.mine||30)/100;
     $("#prevMain").textContent    = fmtUsd(usd);
     $("#prevSec").textContent     = fmtBs(bs);
     $("#prevMine").textContent    = fmtUsd(usd*minePct);
     $("#prevMineBs").textContent  = fmtBs(bs*minePct);
-    $("#prevMineLbl").textContent = `Tu parte (${state.settings.mine||30}%)`;
+    $("#prevMineLbl").textContent = (state.user.role==="admin"?"Para admin":"Para admin")+` (${state.settings.mine||30}%)`;
   }
 
   function renderPreviewPay(){
@@ -842,11 +1222,9 @@
     let usd=0, bs=0;
     if (state.payMethodP === "bs"){
       const r = getActiveRateP();
-      bs = bsInput;
-      usd = r > 0 ? bsInput / r : 0;
+      bs = bsInput; usd = r > 0 ? bsInput / r : 0;
     } else {
-      usd = usdInput;
-      bs = usdInput * (state.settings.bcv||0);
+      usd = usdInput; bs = usdInput * (state.settings.bcv||0);
     }
     $("#prevPayMain").textContent = fmtUsd(usd);
     $("#prevPaySec").textContent  = fmtBs(bs);
@@ -862,23 +1240,12 @@
     if (state.filter === "cobros") entries = entries.filter(e=>e.type==="charge");
     else if (state.filter === "pagos") entries = entries.filter(e=>e.type==="payment");
     else if (state.filter !== "all") entries = entries.filter(e => e.method === state.filter);
-
     if (!entries.length){
-      list.innerHTML = `
-        <div class="empty">
-          <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          <div class="ttl">Sin registros</div>
-          <div class="txt">No hay nada en este filtro todavía</div>
-        </div>`;
+      list.innerHTML = `<div class="empty"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="ttl">Sin registros</div><div class="txt">No hay nada en este filtro todavía</div></div>`;
       return;
     }
-
     const groups = {};
-    entries.forEach(e => {
-      const k = getWeekKey(getEntryDate(e));
-      (groups[k] = groups[k] || []).push(e);
-    });
-
+    entries.forEach(e => { const k = getWeekKey(getEntryDate(e)); (groups[k] = groups[k] || []).push(e); });
     const keys = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
     list.innerHTML = keys.map(k => {
       const items = groups[k];
@@ -888,16 +1255,8 @@
       if (totalCobros && totalPagos) totalLabel = `+${fmtUsdShort(totalCobros)} / −${fmtUsdShort(totalPagos)}`;
       else if (totalCobros) totalLabel = fmtUsd(totalCobros);
       else if (totalPagos) totalLabel = `−${fmtUsd(totalPagos)}`;
-      return `
-        <div class="week-group">
-          <div class="week-head">
-            <div class="wtitle serif">${weekLabel(k)}</div>
-            <div class="wtotal num">${totalLabel}</div>
-          </div>
-          ${items.map(e=>renderEntry(e)).join("")}
-        </div>`;
+      return `<div class="week-group"><div class="week-head"><div class="wtitle serif">${weekLabel(k)}</div><div class="wtotal num">${totalLabel}</div></div>${items.map(e=>renderEntry(e)).join("")}</div>`;
     }).join("");
-
     bindDelete();
   }
 
@@ -905,12 +1264,7 @@
     const list = $("#paymentsList");
     const payments = state.entries.filter(e => e.type === "payment");
     if (!payments.length){
-      list.innerHTML = `
-        <div class="empty green">
-          <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></div>
-          <div class="ttl">Sin pagos aún</div>
-          <div class="txt">Cuando el estilista te pague, regístralo arriba</div>
-        </div>`;
+      list.innerHTML = `<div class="empty green"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></div><div class="ttl">Sin pagos aún</div><div class="txt">Cuando se registre un pago aparecerá aquí</div></div>`;
       return;
     }
     list.innerHTML = payments.map(e=>renderEntry(e)).join("");
@@ -921,8 +1275,7 @@
     const usd = entryUsd(e);
     const bs  = entryBs(e);
     const date = getEntryDate(e);
-    const dateStr = date.toLocaleDateString("es-VE",{day:"numeric",month:"short"})
-      + " · " + date.toLocaleTimeString("es-VE",{hour:"2-digit",minute:"2-digit"});
+    const dateStr = date.toLocaleDateString("es-VE",{day:"numeric",month:"short"}) + " · " + date.toLocaleTimeString("es-VE",{hour:"2-digit",minute:"2-digit"});
     const methodLabel = e.method === "zelle" ? "Zelle" : e.method === "efectivo" ? "Efectivo $" : "Bolívares";
     let rateLabel = "";
     if (e.method === "bs"){
@@ -934,51 +1287,27 @@
     const typeTag = isPayment
       ? `<span class="tag" style="background:var(--mint-soft);color:var(--mint-dark)">PAGO</span>`
       : `<span class="tag" style="background:var(--primary-soft);color:var(--primary-dark)">COBRO</span>`;
-    return `
-      <div class="entry ${isPayment?'payment':''}">
-        <div class="left">
-          <div class="desc">${escapeHtml(e.desc || (isPayment?"Pago recibido":"Consulta"))}</div>
-          <div class="meta">
-            ${typeTag}
-            <span>${dateStr}</span>
-            <span class="tag ${e.method}">${methodLabel}</span>
-            ${rateLabel ? `<span class="tag rate">${rateLabel}</span>` : ""}
-          </div>
-        </div>
-        <div class="right">
-          <div class="amt num">${fmtUsd(usd)}</div>
-          <div class="amt-sec num">${fmtBs(bs)}</div>
-        </div>
-        <button class="del" data-id="${e.id}" aria-label="Eliminar">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
-        </button>
-      </div>`;
+    return `<div class="entry ${isPayment?'payment':''}"><div class="left"><div class="desc">${escapeHtml(e.desc || (isPayment?"Pago recibido":"Consulta"))}</div><div class="meta">${typeTag}<span>${dateStr}</span><span class="tag ${e.method}">${methodLabel}</span>${rateLabel ? `<span class="tag rate">${rateLabel}</span>` : ""}</div></div><div class="right"><div class="amt num">${fmtUsd(usd)}</div><div class="amt-sec num">${fmtBs(bs)}</div></div><button class="del" data-id="${e.id}" aria-label="Eliminar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></div>`;
   }
-
   function bindDelete(){
     $$(".entry .del").forEach(b=>{
       b.addEventListener("click", async ()=>{
         const id = b.dataset.id;
         if (!confirm("¿Eliminar este registro?")) return;
-        try{
-          await deleteDoc(doc(db,"entries",id));
-          toast("Registro eliminado");
-        }catch(err){ console.error(err); toast("Error al eliminar"); }
+        try{ await deleteDoc(doc(db,"entries",id)); toast("Registro eliminado"); }
+        catch(err){ console.error(err); toast("Error al eliminar"); }
       });
     });
   }
-
   function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
   function renderDashboard(){
     const charges = state.entries.filter(e=>e.type==="charge");
     const minePct = (state.settings.mine||30)/100;
     const stylistPct = (state.settings.stylist||70)/100;
-
     const owedAll = calcOwed(state.entries);
     const owedWeek = calcOwed(state.entries.filter(e=>isThisWeek(getEntryDate(e))));
     const owedMonth = calcOwed(state.entries.filter(e=>isThisMonth(getEntryDate(e))));
-
     $("#sDebeTotal").textContent  = fmtUsdShort(owedAll.usd);
     $("#sDebeTotalBs").textContent= fmtBsShort(owedAll.bs);
     $("#sDebeWeek").textContent   = fmtUsdShort(owedWeek.usd);
@@ -987,21 +1316,18 @@
     $("#sDebeMonthBs").textContent= fmtBsShort(owedMonth.bs);
     $("#pDebeTotal").textContent   = fmtUsdShort(owedAll.usd);
     $("#pDebeTotalBs").textContent = fmtBsShort(owedAll.bs);
-
     const week = charges.filter(e => isThisWeek(getEntryDate(e)));
     const totalUsd = week.reduce((s,e)=>s+entryUsd(e),0);
     const totalBs  = week.reduce((s,e)=>s+entryBs(e),0);
-
     $("#sTotalSem").textContent   = fmtUsd(totalUsd);
     $("#sTotalSemBs").textContent = fmtBs(totalBs);
     $("#sCountTxt").textContent   = week.length === 1 ? "1 consulta" : `${week.length} consultas`;
     $("#sStylistPct").textContent = (state.settings.stylist||70)+"%";
-    $("#sMinePct").textContent    = (state.settings.mine||30)+"% — lo que te debe esta semana";
+    $("#sMinePct").textContent    = (state.settings.mine||30)+"% — pendiente";
     $("#sStylist").textContent    = fmtUsd(totalUsd*stylistPct);
     $("#sStylistBs").textContent  = fmtBs(totalBs*stylistPct);
     $("#sMine").textContent       = fmtUsd(totalUsd*minePct);
     $("#sMineBs").textContent     = fmtBs(totalBs*minePct);
-
     const byMethod = {zelle:0, efectivo:0, bs:0};
     week.forEach(e => byMethod[e.method] = (byMethod[e.method]||0) + entryUsd(e));
     const total = totalUsd || 1;
@@ -1012,7 +1338,6 @@
     $("#pbZellePct").textContent    = Math.round((byMethod.zelle/total)*100)+"%";
     $("#pbEfectivoPct").textContent = Math.round((byMethod.efectivo/total)*100)+"%";
     $("#pbBsPct").textContent       = Math.round((byMethod.bs/total)*100)+"%";
-
     const weeks = [];
     for (let i=5;i>=0;i--){
       const d = new Date(); d.setDate(d.getDate()-i*7);
@@ -1029,20 +1354,51 @@
     $("#chartX").innerHTML = weeks.map(w=>`<span>${w.label}</span>`).join("");
   }
 
+  function renderStylistList(){
+    const list = $("#stylistList");
+    if (!state.stylists.length){
+      list.innerHTML = `<div class="empty"><div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="ttl">Aún no tienes estilistas</div><div class="txt">Toca <strong>Invitar estilista</strong> para empezar</div></div>`;
+      return;
+    }
+    list.innerHTML = state.stylists.map(s => `
+      <div class="stylist-item">
+        <div class="avatar-md">${getInitial(s.name)}</div>
+        <div class="info">
+          <div class="name">${escapeHtml(s.name)}</div>
+          <div class="email">${escapeHtml(s.email)}</div>
+        </div>
+        <span class="badge ${s.active===false?'pending':'active'}">${s.active===false?'Inactivo':'Activo'}</span>
+        <div class="actions">
+          <button class="danger" data-action="toggle" data-id="${s.uid}" title="${s.active===false?'Activar':'Desactivar'}">
+            ${s.active===false
+              ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+              : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`}
+          </button>
+        </div>
+      </div>`).join("");
+    $$('#stylistList button[data-action="toggle"]').forEach(b=>{
+      b.addEventListener("click", async ()=>{
+        const id = b.dataset.id;
+        const stylist = state.stylists.find(s=>s.uid===id);
+        const newActive = !(stylist.active !== false);
+        if (!confirm(newActive?"¿Reactivar a este estilista?":"¿Desactivar a este estilista? Ya no podrá entrar.")) return;
+        try{
+          await updateDoc(doc(db,"stylists",id), {active:newActive});
+          toast(newActive?"Estilista reactivado":"Estilista desactivado");
+        }catch(e){ console.error(e); toast("Error al cambiar estado"); }
+      });
+    });
+  }
+
   function renderAll(){
-    renderRates(); renderPreview(); renderPreviewPay();
+    renderRates(); renderHeaders();
+    renderPreview(); renderPreviewPay();
     renderHistory(); renderPaymentsList(); renderDashboard();
   }
 
-  // EVENTOS
-  $("#menuToggle").addEventListener("click",()=>{
-    $("#sidebar").classList.toggle("open");
-    $("#scrim").classList.toggle("active");
-  });
-  $("#scrim").addEventListener("click",()=>{
-    $("#sidebar").classList.remove("open");
-    $("#scrim").classList.remove("active");
-  });
+  // ============ EVENTOS ============
+  $("#menuToggle").addEventListener("click",()=>{ $("#sidebar").classList.toggle("open"); $("#scrim").classList.toggle("active"); });
+  $("#scrim").addEventListener("click",()=>{ $("#sidebar").classList.remove("open"); $("#scrim").classList.remove("active"); });
 
   $$(".nav button").forEach(b=>{
     b.addEventListener("click",()=>{
@@ -1050,13 +1406,11 @@
       b.classList.add("active");
       $$(".screen").forEach(s=>s.classList.remove("active"));
       $("#tab-"+b.dataset.tab).classList.add("active");
-      $("#sidebar").classList.remove("open");
-      $("#scrim").classList.remove("active");
+      $("#sidebar").classList.remove("open"); $("#scrim").classList.remove("active");
       window.scrollTo(0,0);
     });
   });
 
-  // NUEVO COBRO
   $$("#payChips .chip").forEach(c=>{
     c.addEventListener("click",()=>{
       $$("#payChips .chip").forEach(x=>x.classList.remove("active"));
@@ -1088,16 +1442,16 @@
   $("#iBs").addEventListener("input", renderPreview);
 
   $("#btnSave").addEventListener("click", async ()=>{
+    if (!state.viewingStylistId){ toast("Selecciona un estilista primero"); return; }
     const desc = $("#iDesc").value.trim();
     if (!desc){ toast("Pon una descripción"); return; }
-    let entry = { type:"charge", desc, method: state.payMethod, dateMs: Date.now() };
+    let entry = { type:"charge", desc, method: state.payMethod, dateMs: Date.now(), stylistId: state.viewingStylistId };
     if (state.payMethod === "bs"){
       const bs = parseFloat($("#iBs").value)||0;
       if (!bs){ toast("Pon el monto en bolívares"); return; }
       const r = getActiveRate();
       if (!r){ toast("Pon una tasa válida"); return; }
-      entry.bs = bs; entry.usd = bs / r;
-      entry.rate = state.rate; entry.rateUsed = r;
+      entry.bs = bs; entry.usd = bs / r; entry.rate = state.rate; entry.rateUsed = r;
     } else {
       const usd = parseFloat($("#iUsd").value)||0;
       if (!usd){ toast("Pon el monto en dólares"); return; }
@@ -1109,12 +1463,9 @@
       $("#iDesc").value = ""; $("#iUsd").value = ""; $("#iBs").value = "";
       renderPreview();
       toast("Cobro guardado ✓");
-    } catch(err){
-      console.error(err); toast("Error al guardar");
-    }
+    } catch(err){ console.error(err); toast("Error al guardar"); }
   });
 
-  // PAGOS
   $$("#payChipsP .chip").forEach(c=>{
     c.addEventListener("click",()=>{
       $$("#payChipsP .chip").forEach(x=>x.classList.remove("active"));
@@ -1146,14 +1497,14 @@
   $("#payBs").addEventListener("input", renderPreviewPay);
 
   $("#btnSavePay").addEventListener("click", async ()=>{
-    let entry = { type:"payment", desc: $("#payDesc").value.trim() || "Pago recibido", method: state.payMethodP, dateMs: Date.now() };
+    if (!state.viewingStylistId){ toast("Selecciona un estilista primero"); return; }
+    let entry = { type:"payment", desc: $("#payDesc").value.trim() || "Pago recibido", method: state.payMethodP, dateMs: Date.now(), stylistId: state.viewingStylistId };
     if (state.payMethodP === "bs"){
       const bs = parseFloat($("#payBs").value)||0;
       if (!bs){ toast("Pon el monto en bolívares"); return; }
       const r = getActiveRateP();
       if (!r){ toast("Pon una tasa válida"); return; }
-      entry.bs = bs; entry.usd = bs / r;
-      entry.rate = state.rateP; entry.rateUsed = r;
+      entry.bs = bs; entry.usd = bs / r; entry.rate = state.rateP; entry.rateUsed = r;
     } else {
       const usd = parseFloat($("#payUsd").value)||0;
       if (!usd){ toast("Pon el monto en dólares"); return; }
@@ -1165,12 +1516,9 @@
       $("#payDesc").value = ""; $("#payUsd").value = ""; $("#payBs").value = "";
       renderPreviewPay();
       toast("Pago registrado ✓");
-    } catch(err){
-      console.error(err); toast("Error al guardar");
-    }
+    } catch(err){ console.error(err); toast("Error al guardar"); }
   });
 
-  // FILTRO
   $$("#filterBar button").forEach(b=>{
     b.addEventListener("click",()=>{
       $$("#filterBar button").forEach(x=>x.classList.remove("active"));
@@ -1180,7 +1528,7 @@
     });
   });
 
-  // SETTINGS
+  // SETTINGS (reparto se guarda por estilista, tasas son globales)
   $("#btnSettings").addEventListener("click",()=>{
     $("#setBcv").value     = state.settings.bcv;
     $("#setBcvEur").value  = state.settings.bcvEur;
@@ -1192,26 +1540,72 @@
   $("#btnCloseSettings").addEventListener("click",()=>$("#modalBg").classList.remove("active"));
   $("#modalBg").addEventListener("click",(e)=>{ if(e.target.id==="modalBg") $("#modalBg").classList.remove("active");});
   $("#btnSaveSettings").addEventListener("click", async ()=>{
-    state.settings = {
-      ...state.settings,
-      bcv:     parseFloat($("#setBcv").value)||0,
-      bcvEur:  parseFloat($("#setBcvEur").value)||0,
-      binance: parseFloat($("#setBinance").value)||0,
+    const newSettings = {
       stylist: parseFloat($("#setStylist").value)||70,
-      mine:    parseFloat($("#setMine").value)||30
+      mine: parseFloat($("#setMine").value)||30
+    };
+    const newRates = {
+      bcv: parseFloat($("#setBcv").value)||0,
+      bcvEur: parseFloat($("#setBcvEur").value)||0,
+      binance: parseFloat($("#setBinance").value)||0
     };
     try{
-      await setDoc(doc(db,"config","settings"), state.settings, {merge:true});
+      // Guardar reparto en el estilista
+      if (state.viewingStylistId && state.user.role === "admin"){
+        await updateDoc(doc(db,"stylists",state.viewingStylistId), { settings: newSettings });
+      } else if (state.user.role === "stylist"){
+        // Estilista puede editar su propio reparto solo si las reglas lo permiten (lo permitimos en reglas)
+        await updateDoc(doc(db,"stylists",state.user.uid), { settings: newSettings });
+      }
+      // Tasas globales (solo admin)
+      if (state.user.role === "admin" && (newRates.bcv || newRates.bcvEur || newRates.binance)){
+        await setDoc(doc(db,"config","globalRates"), newRates, {merge:true});
+      }
       $("#modalBg").classList.remove("active");
       toast("Configuración guardada ✓");
     }catch(err){ console.error(err); toast("Error al guardar"); }
   });
   $("#btnRefreshRates").addEventListener("click", ()=>fetchRates(false));
 
-  // INIT
-  initFirebase();
-  renderAll();
-  fetchRates(true);
+  // ============ INVITAR ============
+  $("#btnInvite").addEventListener("click",()=>{
+    $("#inviteNameInput").value = "";
+    $("#generatedLink").style.display = "none";
+    $("#modalInvite").classList.add("active");
+  });
+  $("#btnCloseInvite").addEventListener("click",()=>$("#modalInvite").classList.remove("active"));
+  $("#modalInvite").addEventListener("click",(e)=>{ if(e.target.id==="modalInvite") $("#modalInvite").classList.remove("active");});
+
+  $("#btnGenerateInvite").addEventListener("click", async ()=>{
+    const name = $("#inviteNameInput").value.trim();
+    if (!name){ toast("Pon un nombre"); return; }
+    const token = genId(12);
+    try{
+      await setDoc(doc(db,"invites",token), {
+        token, name,
+        createdByUid: state.user.uid,
+        createdAtMs: Date.now(),
+        usedAt: null
+      });
+      const url = window.location.origin + window.location.pathname + "?invite=" + token;
+      $("#inviteLinkInput").value = url;
+      $("#generatedLink").style.display = "block";
+      toast("Link generado ✓");
+    }catch(e){ console.error(e); toast("Error al crear invitación"); }
+  });
+
+  $("#btnCopyLink").addEventListener("click", async ()=>{
+    const url = $("#inviteLinkInput").value;
+    try{
+      await navigator.clipboard.writeText(url);
+      toast("Link copiado ✓");
+    }catch(e){
+      // Fallback
+      $("#inviteLinkInput").select();
+      document.execCommand("copy");
+      toast("Link copiado ✓");
+    }
+  });
 </script>
 
 </body>
