@@ -39,6 +39,11 @@
   .logo .name{font-family:'DM Serif Display',serif;font-size:20px;line-height:1;color:var(--text)}
   .logo .name small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-mute);margin-top:4px;font-weight:600}
 
+  .cloud-status{display:flex;align-items:center;gap:6px;padding:6px 10px;margin-bottom:14px;border-radius:8px;background:var(--mint-soft);font-size:11px;color:var(--mint-dark);font-weight:600}
+  .cloud-status.error{background:var(--rose-soft);color:var(--primary-dark)}
+  .cloud-status .dot{width:6px;height:6px;border-radius:50%;background:var(--mint-dark);box-shadow:0 0 0 3px rgba(127,197,164,.25);animation:pulse 2s infinite}
+  .cloud-status.error .dot{background:var(--primary-dark);box-shadow:0 0 0 3px rgba(232,123,107,.25)}
+
   .nav{display:flex;flex-direction:column;gap:4px}
   .nav button{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;color:var(--text-2);font-size:14px;font-weight:500;text-align:left;transition:all .2s}
   .nav button:hover{background:var(--surface-2);color:var(--text)}
@@ -108,7 +113,6 @@
   .preview .col .v2{font-size:13px;color:var(--text-2);margin-top:4px;font-weight:500}
   .preview .col.right{text-align:right}
   .preview .col.right .v1{color:var(--primary-dark)}
-  /* preview verde para pagos */
   .preview.green{background:linear-gradient(135deg,var(--mint-soft) 0%,var(--surface-2) 100%)}
   .preview.green .col.right .v1{color:var(--mint-dark)}
 
@@ -127,7 +131,6 @@
   .week-head{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 10px;margin-bottom:10px;border-bottom:1px dashed var(--line)}
   .week-head .wtitle{font-family:'DM Serif Display',serif;font-size:19px;color:var(--text)}
   .week-head .wtotal{font-size:13px;color:var(--primary-dark);font-weight:700}
-  .week-head .wtotal.green{color:var(--mint-dark)}
 
   .entry{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:relative;transition:all .2s}
   .entry:hover{border-color:var(--line);box-shadow:var(--shadow-sm)}
@@ -156,9 +159,6 @@
   .stat.primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:none;color:white}
   .stat.primary .lbl,.stat.primary .sub{color:rgba(255,255,255,.85)}
   .stat.primary .val{color:white}
-  .stat.green{background:linear-gradient(135deg,var(--mint),var(--mint-dark));border:none;color:white}
-  .stat.green .lbl,.stat.green .sub{color:rgba(255,255,255,.85)}
-  .stat.green .val{color:white}
   .stat.warn{background:linear-gradient(135deg,var(--sun),#e0a040);border:none;color:white}
   .stat.warn .lbl,.stat.warn .sub{color:rgba(255,255,255,.9)}
   .stat.warn .val{color:white}
@@ -174,7 +174,6 @@
   .balance-row .vals{text-align:right}
   .balance-row .vals .v1{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text)}
   .balance-row .vals .v1.pending{color:var(--primary-dark)}
-  .balance-row .vals .v1.zero{color:var(--mint-dark)}
   .balance-row .vals .v2{font-size:11px;color:var(--text-mute);margin-top:2px;font-weight:500}
 
   .pay-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
@@ -249,6 +248,11 @@
       <div class="name">Salón<small>Cuentas</small></div>
     </div>
 
+    <div class="cloud-status" id="cloudStatus">
+      <span class="dot"></span>
+      <span id="cloudStatusText">Conectando…</span>
+    </div>
+
     <nav class="nav">
       <button class="active" data-tab="dashboard">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
@@ -288,7 +292,6 @@
 
   <main class="main">
 
-    <!-- ============ DASHBOARD ============ -->
     <section class="screen active" id="tab-dashboard">
       <div class="page-head">
         <div>
@@ -297,7 +300,6 @@
         </div>
       </div>
 
-      <!-- Saldos pendientes (lo más importante) -->
       <div class="stat-grid">
         <div class="stat warn">
           <div class="lbl">Te debe en total</div>
@@ -316,7 +318,6 @@
         </div>
       </div>
 
-      <!-- Resumen del cobro de la semana -->
       <div class="card">
         <h2 class="serif">Esta semana</h2>
         <p class="sub">Cobros registrados y reparto</p>
@@ -373,7 +374,6 @@
       </div>
     </section>
 
-    <!-- ============ NUEVO COBRO ============ -->
     <section class="screen" id="tab-nuevo">
       <div class="page-head">
         <div>
@@ -458,7 +458,6 @@
       </div>
     </section>
 
-    <!-- ============ PAGOS ============ -->
     <section class="screen" id="tab-pagos">
       <div class="page-head">
         <div>
@@ -467,7 +466,6 @@
         </div>
       </div>
 
-      <!-- Saldo grande arriba -->
       <div class="stat-grid" style="grid-template-columns:1fr">
         <div class="stat warn">
           <div class="lbl">Saldo pendiente que te debe</div>
@@ -476,7 +474,6 @@
         </div>
       </div>
 
-      <!-- Form para registrar pago -->
       <div class="card">
         <h2 class="serif">Registrar nuevo pago</h2>
         <p class="sub">Cuando el estilista te paga tu 30%</p>
@@ -555,7 +552,6 @@
         <button class="btn-primary green" id="btnSavePay">Registrar pago</button>
       </div>
 
-      <!-- Historial de pagos -->
       <div class="card" style="margin-top:14px">
         <h2 class="serif">Pagos recibidos</h2>
         <p class="sub">Últimos pagos del estilista</p>
@@ -563,7 +559,6 @@
       </div>
     </section>
 
-    <!-- ============ HISTORIAL ============ -->
     <section class="screen" id="tab-historial">
       <div class="page-head">
         <div>
@@ -618,29 +613,30 @@
   import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, setDoc, getDoc, serverTimestamp }
     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  /* ============================================
-     FIREBASE: pega aquí tu configuración.
-     Mientras tenga "TU_API_KEY", la app guarda
-     en el navegador (localStorage).
-     ============================================ */
+  // ============================================
+  // 🔥 FIREBASE CONECTADO — proyecto: peluqueria-bda27
+  // ============================================
   const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "TU_PROYECTO.firebaseapp.com",
-    projectId: "TU_PROYECTO",
-    storageBucket: "TU_PROYECTO.appspot.com",
-    messagingSenderId: "XXXXXXXXX",
-    appId: "1:XXXXX:web:XXXXX"
+    apiKey: "AIzaSyAaGzWbc4cdf06BzfLIjePGr1FEH5Wc26o",
+    authDomain: "peluqueria-bda27.firebaseapp.com",
+    projectId: "peluqueria-bda27",
+    storageBucket: "peluqueria-bda27.firebasestorage.app",
+    messagingSenderId: "693118209966",
+    appId: "1:693118209966:web:5627e88406b4fcbaa5023f"
   };
 
-  const USE_FIREBASE = !firebaseConfig.apiKey.startsWith("TU_");
   let db = null;
-  if (USE_FIREBASE) {
+  let firebaseReady = false;
+  try {
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
+    firebaseReady = true;
+  } catch(e){
+    console.error("Firebase init error:", e);
   }
 
   const state = {
-    entries: [],   // type:"charge" o type:"payment"
+    entries: [],
     settings: { bcv: 0, bcvEur: 0, binance: 0, stylist: 70, mine: 30, lastUpdate: null },
     payMethod: "zelle",
     rate: "bcv",
@@ -659,39 +655,54 @@
 
   function toast(msg){
     const t = $("#toast"); t.textContent = msg; t.classList.add("show");
-    setTimeout(()=>t.classList.remove("show"), 2200);
+    setTimeout(()=>t.classList.remove("show"), 2500);
   }
 
-  function loadLocal(){
-    try{
-      const e = localStorage.getItem("pelu_entries");
-      const s = localStorage.getItem("pelu_settings");
-      if(e){
-        state.entries = JSON.parse(e);
-        // migración: entradas viejas sin type son "charge"
-        state.entries.forEach(en => { if(!en.type) en.type = "charge"; });
-      }
-      if(s) state.settings = {...state.settings, ...JSON.parse(s)};
-    }catch(err){}
+  function setCloudStatus(text, error=false){
+    $("#cloudStatusText").textContent = text;
+    const el = $("#cloudStatus");
+    if (error) el.classList.add("error"); else el.classList.remove("error");
   }
-  function saveLocalEntries(){ localStorage.setItem("pelu_entries", JSON.stringify(state.entries)); }
-  function saveLocalSettings(){ localStorage.setItem("pelu_settings", JSON.stringify(state.settings)); }
 
+  // ============ FIREBASE ============
   async function initFirebase(){
-    const settingsRef = doc(db, "config", "settings");
-    const snap = await getDoc(settingsRef);
-    if (snap.exists()) state.settings = {...state.settings, ...snap.data()};
-    else await setDoc(settingsRef, state.settings);
-    onSnapshot(settingsRef, s => { if (s.exists()){ state.settings = {...state.settings, ...s.data()}; renderAll(); } });
-    const q = query(collection(db, "entries"), orderBy("createdAt","desc"));
-    onSnapshot(q, snap => {
-      state.entries = snap.docs.map(d => ({id:d.id, ...d.data()}));
-      state.entries.forEach(en => { if(!en.type) en.type = "charge"; });
-      renderAll();
-    });
+    if (!firebaseReady){
+      setCloudStatus("Sin conexión", true);
+      toast("Firebase no se pudo iniciar");
+      return;
+    }
+    try {
+      const settingsRef = doc(db, "config", "settings");
+      const snap = await getDoc(settingsRef);
+      if (snap.exists()) state.settings = {...state.settings, ...snap.data()};
+      else await setDoc(settingsRef, state.settings);
+
+      onSnapshot(settingsRef, s => {
+        if (s.exists()){ state.settings = {...state.settings, ...s.data()}; renderAll(); }
+      }, err => {
+        console.error(err);
+        setCloudStatus("Error de permisos", true);
+      });
+
+      const q = query(collection(db, "entries"), orderBy("createdAt","desc"));
+      onSnapshot(q, snap => {
+        state.entries = snap.docs.map(d => ({id:d.id, ...d.data()}));
+        state.entries.forEach(en => { if(!en.type) en.type = "charge"; });
+        renderAll();
+        setCloudStatus("Conectado a la nube");
+      }, err => {
+        console.error(err);
+        setCloudStatus("Error de permisos", true);
+        toast("Revisa las reglas de Firestore");
+      });
+    } catch(err){
+      console.error(err);
+      setCloudStatus("Error de conexión", true);
+      toast("Error conectando con Firebase");
+    }
   }
 
-  // FETCH TASAS
+  // ============ TASAS ============
   async function fetchRates(silent=false){
     const btn = $("#btnRefreshRates");
     btn.classList.add("loading");
@@ -710,12 +721,10 @@
         const d = await resVe.json();
         bcvUsd = d.promedio || d.venta || d.compra || 0;
       }
-
       if (resEur && resEur.ok){
         const d = await resEur.json();
         bcvEur = d.promedio || d.venta || d.compra || 0;
       }
-
       if (resAll && resAll.ok){
         const arr = await resAll.json();
         for (const it of arr){
@@ -736,9 +745,9 @@
       if (binance) state.settings.binance = Number(binance);
       state.settings.lastUpdate = Date.now();
 
-      if (USE_FIREBASE){
+      if (firebaseReady){
         await setDoc(doc(db,"config","settings"), state.settings, {merge:true});
-      } else { saveLocalSettings(); }
+      }
 
       renderAll();
       if(!silent) toast("Tasas actualizadas ✓");
@@ -746,7 +755,7 @@
     finally { btn.classList.remove("loading"); }
   }
 
-  // ============ HELPERS DATOS ============
+  // ============ HELPERS ============
   function entryUsd(e){ return Number(e.usd)||0; }
   function entryBs(e){
     if (e.method === "bs") return Number(e.bs)||0;
@@ -769,19 +778,12 @@
     const fmt = x => x.toLocaleDateString("es-VE",{day:"numeric",month:"short"});
     return `${fmt(d)} – ${fmt(end)}`;
   }
-  function getMonthKey(date){
-    const d = new Date(date);
-    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
-  }
   function isThisWeek(d){ return getWeekKey(d) === getWeekKey(new Date()); }
   function isThisMonth(d){
     const now = new Date();
     return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth();
   }
 
-  // CÁLCULOS DE SALDO
-  // - Cada cobro genera "tu parte" = monto * (mine/100)
-  // - Cada pago resta del saldo
   function calcOwed(entries){
     const minePct = (state.settings.mine||30)/100;
     let usd = 0, bs = 0;
@@ -807,21 +809,13 @@
   }
 
   // ============ RENDER ============
-
   function renderRates(){
     const v = (k)=> state.settings[k] ? fmtRate(state.settings[k]) : "—";
-    $("#rBcv").textContent     = v("bcv");
-    $("#rBcvEur").textContent  = v("bcvEur");
-    $("#rBinance").textContent = v("binance");
-    $("#rBcvP").textContent     = v("bcv");
-    $("#rBcvEurP").textContent  = v("bcvEur");
-    $("#rBinanceP").textContent = v("binance");
-    $("#mBcv").textContent     = v("bcv");
-    $("#mBcvEur").textContent  = v("bcvEur");
-    $("#mBinance").textContent = v("binance");
+    $("#rBcv").textContent = v("bcv"); $("#rBcvEur").textContent = v("bcvEur"); $("#rBinance").textContent = v("binance");
+    $("#rBcvP").textContent = v("bcv"); $("#rBcvEurP").textContent = v("bcvEur"); $("#rBinanceP").textContent = v("binance");
+    $("#mBcv").textContent = v("bcv"); $("#mBcvEur").textContent = v("bcvEur"); $("#mBinance").textContent = v("binance");
   }
 
-  // PREVIEW NUEVO COBRO
   function renderPreview(){
     const usdInput = parseFloat($("#iUsd").value)||0;
     const bsInput  = parseFloat($("#iBs").value)||0;
@@ -842,7 +836,6 @@
     $("#prevMineLbl").textContent = `Tu parte (${state.settings.mine||30}%)`;
   }
 
-  // PREVIEW PAGO
   function renderPreviewPay(){
     const usdInput = parseFloat($("#payUsd").value)||0;
     const bsInput  = parseFloat($("#payBs").value)||0;
@@ -857,7 +850,6 @@
     }
     $("#prevPayMain").textContent = fmtUsd(usd);
     $("#prevPaySec").textContent  = fmtBs(bs);
-
     const owed = calcOwed(state.entries);
     const after = { usd: owed.usd - usd, bs: owed.bs - bs };
     $("#prevPayBalance").textContent   = fmtUsd(after.usd);
@@ -867,7 +859,6 @@
   function renderHistory(){
     const list = $("#historyList");
     let entries = [...state.entries];
-
     if (state.filter === "cobros") entries = entries.filter(e=>e.type==="charge");
     else if (state.filter === "pagos") entries = entries.filter(e=>e.type==="payment");
     else if (state.filter !== "all") entries = entries.filter(e => e.method === state.filter);
@@ -969,9 +960,10 @@
       b.addEventListener("click", async ()=>{
         const id = b.dataset.id;
         if (!confirm("¿Eliminar este registro?")) return;
-        if (USE_FIREBASE){ await deleteDoc(doc(db,"entries",id)); }
-        else { state.entries = state.entries.filter(e=>e.id!==id); saveLocalEntries(); renderAll(); }
-        toast("Registro eliminado");
+        try{
+          await deleteDoc(doc(db,"entries",id));
+          toast("Registro eliminado");
+        }catch(err){ console.error(err); toast("Error al eliminar"); }
       });
     });
   }
@@ -983,7 +975,6 @@
     const minePct = (state.settings.mine||30)/100;
     const stylistPct = (state.settings.stylist||70)/100;
 
-    // SALDOS DEUDA (todos / semana / mes)
     const owedAll = calcOwed(state.entries);
     const owedWeek = calcOwed(state.entries.filter(e=>isThisWeek(getEntryDate(e))));
     const owedMonth = calcOwed(state.entries.filter(e=>isThisMonth(getEntryDate(e))));
@@ -994,11 +985,9 @@
     $("#sDebeWeekBs").textContent = fmtBsShort(owedWeek.bs);
     $("#sDebeMonth").textContent  = fmtUsdShort(owedMonth.usd);
     $("#sDebeMonthBs").textContent= fmtBsShort(owedMonth.bs);
-
     $("#pDebeTotal").textContent   = fmtUsdShort(owedAll.usd);
     $("#pDebeTotalBs").textContent = fmtBsShort(owedAll.bs);
 
-    // SEMANA: cobrado, reparto
     const week = charges.filter(e => isThisWeek(getEntryDate(e)));
     const totalUsd = week.reduce((s,e)=>s+entryUsd(e),0);
     const totalBs  = week.reduce((s,e)=>s+entryBs(e),0);
@@ -1013,7 +1002,6 @@
     $("#sMine").textContent       = fmtUsd(totalUsd*minePct);
     $("#sMineBs").textContent     = fmtBs(totalBs*minePct);
 
-    // POR MÉTODO (semana, solo cobros)
     const byMethod = {zelle:0, efectivo:0, bs:0};
     week.forEach(e => byMethod[e.method] = (byMethod[e.method]||0) + entryUsd(e));
     const total = totalUsd || 1;
@@ -1025,7 +1013,6 @@
     $("#pbEfectivoPct").textContent = Math.round((byMethod.efectivo/total)*100)+"%";
     $("#pbBsPct").textContent       = Math.round((byMethod.bs/total)*100)+"%";
 
-    // CHART 6 SEMANAS (solo cobros)
     const weeks = [];
     for (let i=5;i>=0;i--){
       const d = new Date(); d.setDate(d.getDate()-i*7);
@@ -1043,15 +1030,11 @@
   }
 
   function renderAll(){
-    renderRates();
-    renderPreview();
-    renderPreviewPay();
-    renderHistory();
-    renderPaymentsList();
-    renderDashboard();
+    renderRates(); renderPreview(); renderPreviewPay();
+    renderHistory(); renderPaymentsList(); renderDashboard();
   }
 
-  // ============ EVENTOS ============
+  // EVENTOS
   $("#menuToggle").addEventListener("click",()=>{
     $("#sidebar").classList.toggle("open");
     $("#scrim").classList.toggle("active");
@@ -1073,7 +1056,7 @@
     });
   });
 
-  // === NUEVO COBRO ===
+  // NUEVO COBRO
   $$("#payChips .chip").forEach(c=>{
     c.addEventListener("click",()=>{
       $$("#payChips .chip").forEach(x=>x.classList.remove("active"));
@@ -1120,22 +1103,18 @@
       if (!usd){ toast("Pon el monto en dólares"); return; }
       entry.usd = usd;
     }
-    if (USE_FIREBASE){
+    try{
       entry.createdAt = serverTimestamp();
       await addDoc(collection(db,"entries"), entry);
-    } else {
-      entry.id = "l"+Date.now();
-      state.entries.unshift(entry);
-      saveLocalEntries(); renderAll();
+      $("#iDesc").value = ""; $("#iUsd").value = ""; $("#iBs").value = "";
+      renderPreview();
+      toast("Cobro guardado ✓");
+    } catch(err){
+      console.error(err); toast("Error al guardar");
     }
-    $("#iDesc").value = "";
-    $("#iUsd").value = "";
-    $("#iBs").value = "";
-    renderPreview();
-    toast("Cobro guardado ✓");
   });
 
-  // === PAGOS ===
+  // PAGOS
   $$("#payChipsP .chip").forEach(c=>{
     c.addEventListener("click",()=>{
       $$("#payChipsP .chip").forEach(x=>x.classList.remove("active"));
@@ -1167,12 +1146,7 @@
   $("#payBs").addEventListener("input", renderPreviewPay);
 
   $("#btnSavePay").addEventListener("click", async ()=>{
-    let entry = {
-      type:"payment",
-      desc: $("#payDesc").value.trim() || "Pago recibido",
-      method: state.payMethodP,
-      dateMs: Date.now()
-    };
+    let entry = { type:"payment", desc: $("#payDesc").value.trim() || "Pago recibido", method: state.payMethodP, dateMs: Date.now() };
     if (state.payMethodP === "bs"){
       const bs = parseFloat($("#payBs").value)||0;
       if (!bs){ toast("Pon el monto en bolívares"); return; }
@@ -1185,22 +1159,18 @@
       if (!usd){ toast("Pon el monto en dólares"); return; }
       entry.usd = usd;
     }
-    if (USE_FIREBASE){
+    try{
       entry.createdAt = serverTimestamp();
       await addDoc(collection(db,"entries"), entry);
-    } else {
-      entry.id = "l"+Date.now();
-      state.entries.unshift(entry);
-      saveLocalEntries(); renderAll();
+      $("#payDesc").value = ""; $("#payUsd").value = ""; $("#payBs").value = "";
+      renderPreviewPay();
+      toast("Pago registrado ✓");
+    } catch(err){
+      console.error(err); toast("Error al guardar");
     }
-    $("#payDesc").value = "";
-    $("#payUsd").value = "";
-    $("#payBs").value = "";
-    renderPreviewPay();
-    toast("Pago registrado ✓");
   });
 
-  // === FILTRO HISTORIAL ===
+  // FILTRO
   $$("#filterBar button").forEach(b=>{
     b.addEventListener("click",()=>{
       $$("#filterBar button").forEach(x=>x.classList.remove("active"));
@@ -1210,7 +1180,7 @@
     });
   });
 
-  // === SETTINGS ===
+  // SETTINGS
   $("#btnSettings").addEventListener("click",()=>{
     $("#setBcv").value     = state.settings.bcv;
     $("#setBcvEur").value  = state.settings.bcvEur;
@@ -1230,17 +1200,16 @@
       stylist: parseFloat($("#setStylist").value)||70,
       mine:    parseFloat($("#setMine").value)||30
     };
-    if (USE_FIREBASE){
+    try{
       await setDoc(doc(db,"config","settings"), state.settings, {merge:true});
-    } else { saveLocalSettings(); renderAll(); }
-    $("#modalBg").classList.remove("active");
-    toast("Configuración guardada ✓");
+      $("#modalBg").classList.remove("active");
+      toast("Configuración guardada ✓");
+    }catch(err){ console.error(err); toast("Error al guardar"); }
   });
   $("#btnRefreshRates").addEventListener("click", ()=>fetchRates(false));
 
   // INIT
-  loadLocal();
-  if (USE_FIREBASE) initFirebase().catch(err=>{ console.error(err); toast("Error Firebase"); });
+  initFirebase();
   renderAll();
   fetchRates(true);
 </script>
