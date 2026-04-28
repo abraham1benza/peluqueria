@@ -485,17 +485,17 @@
 
       <div class="stat-grid">
         <div class="stat warn">
-          <div class="lbl">Te debe en total</div>
+          <div class="lbl" id="sDebeTotalLbl">Te debe en total</div>
           <div class="val num" id="sDebeTotal">$0</div>
           <div class="sub num" id="sDebeTotalBs">Bs 0</div>
         </div>
         <div class="stat">
-          <div class="lbl">Te debe esta semana</div>
+          <div class="lbl" id="sDebeWeekLbl">Te debe esta semana</div>
           <div class="val num" id="sDebeWeek">$0</div>
           <div class="sub num" id="sDebeWeekBs">Bs 0</div>
         </div>
         <div class="stat">
-          <div class="lbl">Te debe este mes</div>
+          <div class="lbl" id="sDebeMonthLbl">Te debe este mes</div>
           <div class="val num" id="sDebeMonth">$0</div>
           <div class="sub num" id="sDebeMonthBs">Bs 0</div>
         </div>
@@ -522,7 +522,7 @@
           <div class="balance-row">
             <div class="label">
               <div class="ico" style="background:var(--mint-soft);color:var(--mint-dark)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/></svg></div>
-              <div><div class="name">Para admin</div><div class="desc" id="sMinePct">30% — pendiente</div></div>
+              <div><div class="name" id="sMineNameLbl">Para admin</div><div class="desc" id="sMinePct">30% — pendiente</div></div>
             </div>
             <div class="vals"><div class="v1 num pending" id="sMine">$0.00</div><div class="v2 num" id="sMineBs">Bs 0</div></div>
           </div>
@@ -1184,14 +1184,30 @@
     if (state.user.role === "admin"){
       const stylist = state.stylists.find(s=>s.uid===state.viewingStylistId);
       const sName = stylist?.name || "estilista";
+      // Título y subtítulo
       $("#dashboardTitle").innerHTML = `Cuenta de <em>${sName}</em>`;
       $("#dashboardSub").textContent = "Vista de admin · Lo que te debe este estilista";
+      // 3 tarjetas de saldo
+      $("#sDebeTotalLbl").textContent = "Te debe en total";
+      $("#sDebeWeekLbl").textContent  = "Te debe esta semana";
+      $("#sDebeMonthLbl").textContent = "Te debe este mes";
+      // Reparto
+      $("#sMineNameLbl").textContent = "Para admin";
+      // Pagos
       $("#pDebeLabel").textContent = `Saldo pendiente que te debe ${sName}`;
       $("#pagosSub").textContent = `Registra cuando ${sName} te pague`;
       $("#pagoFormSub").textContent = `Cuando ${sName} te paga el ${state.settings.mine||30}%`;
     } else {
+      // Vista del estilista — todo en "debes / le debes"
       $("#dashboardTitle").innerHTML = `Hola <em>${state.user.name}</em> ✨`;
       $("#dashboardSub").textContent = "Tu resumen de la semana";
+      // 3 tarjetas de saldo
+      $("#sDebeTotalLbl").textContent = "Le debes en total";
+      $("#sDebeWeekLbl").textContent  = "Le debes esta semana";
+      $("#sDebeMonthLbl").textContent = "Le debes este mes";
+      // Reparto
+      $("#sMineNameLbl").textContent = "Le debes al admin";
+      // Pagos
       $("#pDebeLabel").textContent = "Lo que le debes al admin";
       $("#pagosSub").textContent = "Registra cuando le pagues al admin";
       $("#pagoFormSub").textContent = `Cuando le pagas el ${state.settings.mine||30}% al admin`;
