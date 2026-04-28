@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="theme-color" content="#0f0e0c" />
+<title>Salón · Cuentas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f0e0c;
+    --bg-2:#17150f;
+    --surface:#1c1a13;
+    --surface-2:#23211a;
+    --line:rgba(212,175,109,.18);
+    --line-strong:rgba(212,175,109,.35);
+    --gold:#d4af6d;
+    --gold-2:#e8c98a;
+    --gold-soft:#7a6437;
+    --cream:#f4ead5;
+    --text:#f4ead5;
+    --text-dim:#b8a87f;
+    --text-mute:#7d735a;
+    --green:#86b06a;
+    --rose:#d98a8a;
+    --blue:#8ab0d9;
+    --shadow:0 20px 60px -20px rgba(0,0,0,.6),0 8px 24px -12px rgba(0,0,0,.5);
+    --radius:18px;
+    --radius-sm:12px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.5;overscroll-behavior:none}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(212,175,109,.12), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(212,175,109,.08), transparent 60%),
+      var(--bg);
+    padding-bottom:96px;
+  }
+  .serif{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-.01em}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  button{font-family:inherit;color:inherit;cursor:pointer;border:0;background:none}
+  input,select{font-family:inherit;color:inherit}
+
+  /* HEADER */
+  header.app{
+    padding:28px 22px 10px;
+    display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
+  }
+  header.app .brand{display:flex;flex-direction:column}
+  header.app .eyebrow{
+    font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);
+    font-weight:500;
+  }
+  header.app h1{
+    margin:6px 0 0;font-family:'Fraunces',serif;font-weight:300;font-size:34px;line-height:1;
+    letter-spacing:-.02em;
+  }
+  header.app h1 em{font-style:italic;color:var(--gold-2);font-weight:400}
+  .rate-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 12px;border-radius:100px;
+    background:linear-gradient(180deg,rgba(212,175,109,.14),rgba(212,175,109,.06));
+    border:1px solid var(--line-strong);
+    font-size:11px;letter-spacing:.06em;color:var(--gold-2);
+    font-weight:500;
+  }
+  .rate-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+
+  /* TABS */
+  nav.tabs{
+    margin:18px 22px 0;
+    display:grid;grid-template-columns:repeat(3,1fr);
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;padding:5px;gap:4px;
+  }
+  nav.tabs button{
+    padding:10px 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--text-mute);border-radius:10px;font-weight:500;
+    transition:all .25s ease;
+  }
+  nav.tabs button.active{
+    background:linear-gradient(180deg,#2a2718,#1f1c14);
+    color:var(--gold-2);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 1px 0 rgba(0,0,0,.4);
+  }
+
+  /* SCREENS */
+  main{padding:18px 22px}
+  .screen{display:none;animation:fadeUp .4s ease}
+  .screen.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  /* CARDS */
+  .card{
+    background:linear-gradient(180deg,var(--surface),var(--bg-2));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow);
+  }
+  .card + .card{margin-top:14px}
+  .card h2{
+    margin:0 0 4px;font-family:'Fraunces',serif;font-weight:400;font-size:22px;letter-spacing:-.01em;
+  }
+  .card .sub{color:var(--text-mute);font-size:12px;letter-spacing:.04em}
+
+  /* FORM */
+  .field{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+  .field label{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mute);font-weight:500}
+  .field input, .field select, .field textarea{
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:14px 14px;
+    font-size:16px; /* evita zoom iOS */
+    color:var(--text);
+    outline:none;
+    transition:border-color .2s, background .2s;
+  }
+  .field input:focus, .field select:focus{
+    border-color:var(--gold);
+    background:#1f1d15;
+  }
+  .field input::placeholder{color:var(--text-mute)}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+  /* PAY METHOD CHIPS */
+  .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+  .chip{
+    padding:14px 8px;border-radius:12px;
+    background:var(--bg-2);
+    border:1px solid var(--line);
+    text-align:center;font-size:13px;
+    transition:all .2s;
+    display:flex;flex-direction:column;align-items:center;gap:4px;
+    color:var(--text-dim);
+  }
+  .chip svg{width:18px;height:18px;opacity:.85}
+  .chip.active{
+    background:linear-gradient(180deg,rgba(212,175,109,.18),rgba(212,175,109,.06));
+    border-color:var(--gold);
+    color:var(--gold-2);
+  }
+
+  /* RATE SELECTOR */
+  .rate-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+  .rate-card{
+    padding:12px 10px;border-radius:12px;
+    background:var(--bg-2);border:1px solid var(--line);
+    text-align:left;transition:all .2s;
+  }
+  .rate-card .rname{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-mute);font-weight:600}
+  .rate-card .rval{font-family:'Fraunces',serif;font-size:18px;margin-top:4px;color:var(--text)}
+  .rate-card.active{
+    background:linear-gradient(180deg,rgba(212,175,109,.16),rgba(212,175,109,.04));
+    border-color:var(--gold);
+  }
+  .rate-card.active .rname{color:var(--gold)}
+  .rate-card.active .rval{color:var(--gold-2)}
+
+  /* PRICE PREVIEW */
+  .preview{
+    margin-top:14px;padding:14px;border-radius:var(--radius-sm);
+    background:linear-gradient(135deg,rgba(212,175,109,.12),rgba(212,175,109,.02));
+    border:1px dashed var(--line-strong);
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .preview .lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-mute)}
+  .preview .v1{font-family:'Fraunces',serif;font-size:24px;color:var(--gold-2);margin-top:2px}
+  .preview .v2{font-size:13px;color:var(--text-dim);margin-top:2px}
+  .preview .right{text-align:right}
+
+  /* PRIMARY BUTTON */
+  .btn-primary{
+    width:100%;margin-top:18px;
+    padding:16px;border-radius:14px;
+    background:linear-gradient(180deg,#e8c98a,#c9a263);
+    color:#1a1610;font-weight:600;font-size:15px;
+    letter-spacing:.04em;
+    box-shadow:0 10px 30px -10px rgba(212,175,109,.5),inset 0 1px 0 rgba(255,255,255,.3);
+    transition:transform .15s, box-shadow .2s;
+  }
+  .btn-primary:active{transform:scale(.985)}
+  .btn-ghost{
+    width:100%;margin-top:10px;padding:14px;border-radius:12px;
+    background:transparent;border:1px solid var(--line);color:var(--text-dim);
+    font-size:13px;letter-spacing:.08em;
+  }
+
+  /* HISTORIAL */
+  .filter-bar{
+    display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin:0 -22px 14px;padding-left:22px;padding-right:22px;
+    scrollbar-width:none;
+  }
+  .filter-bar::-webkit-scrollbar{display:none}
+  .filter-bar button{
+    flex-shrink:0;padding:8px 14px;border-radius:100px;
+    background:var(--surface);border:1px solid var(--line);
+    font-size:12px;color:var(--text-dim);letter-spacing:.04em;
+  }
+  .filter-bar button.active{
+    background:var(--gold);color:#1a1610;border-color:var(--gold);font-weight:600;
+  }
+
+  .week-group{margin-bottom:18px}
+  .week-head{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:0 4px 8px;border-bottom:1px solid var(--line);margin-bottom:10px;
+  }
+  .week-head .wtitle{font-family:'Fraunces',serif;font-size:17px;color:var(--cream)}
+  .week-head .wtotal{font-size:12px;color:var(--gold-2);letter-spacing:.04em}
+
+  .entry{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:14px;padding:14px;margin-bottom:8px;
+    display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+    position:relative;
+  }
+  .entry .left{flex:1;min-width:0}
+  .entry .desc{font-size:14px;font-weight:500;color:var(--cream);margin-bottom:3px;word-break:break-word}
+  .entry .meta{font-size:11px;color:var(--text-mute);letter-spacing:.04em;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .entry .meta .tag{
+    padding:2px 8px;border-radius:100px;font-size:10px;
+    background:rgba(212,175,109,.1);color:var(--gold);
+    border:1px solid var(--line);text-transform:uppercase;letter-spacing:.1em;
+  }
+  .entry .meta .tag.zelle{background:rgba(138,176,217,.12);color:var(--blue);border-color:rgba(138,176,217,.25)}
+  .entry .meta .tag.efectivo{background:rgba(134,176,106,.12);color:var(--green);border-color:rgba(134,176,106,.25)}
+  .entry .meta .tag.bs{background:rgba(217,138,138,.12);color:var(--rose);border-color:rgba(217,138,138,.25)}
+  .entry .right{text-align:right;flex-shrink:0}
+  .entry .amt{font-family:'Fraunces',serif;font-size:18px;color:var(--cream);line-height:1.1}
+  .entry .amt-sec{font-size:11px;color:var(--text-mute);margin-top:2px}
+  .entry .del{
+    position:absolute;top:8px;right:8px;
+    width:28px;height:28px;border-radius:8px;
+    color:var(--text-mute);opacity:0;transition:opacity .2s;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .entry:hover .del, .entry.show-del .del{opacity:1}
+  .entry .del:hover{background:rgba(217,138,138,.1);color:var(--rose)}
+
+  /* DASHBOARD */
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  .stat{
+    background:linear-gradient(180deg,var(--surface),var(--bg-2));
+    border:1px solid var(--line);border-radius:14px;padding:14px;
+  }
+  .stat .lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-mute);font-weight:500}
+  .stat .val{font-family:'Fraunces',serif;font-size:26px;color:var(--cream);margin-top:6px;line-height:1}
+  .stat .sub{font-size:11px;color:var(--text-dim);margin-top:4px}
+  .stat.gold{
+    background:linear-gradient(160deg,rgba(212,175,109,.16),rgba(212,175,109,.02));
+    border-color:var(--line-strong);
+  }
+  .stat.gold .val{color:var(--gold-2)}
+
+  .split-card{
+    margin-bottom:14px;
+  }
+  .split-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:12px 0;border-bottom:1px solid var(--line);
+  }
+  .split-row:last-child{border-bottom:none}
+  .split-row .label{display:flex;align-items:center;gap:10px}
+  .split-row .label .ico{
+    width:34px;height:34px;border-radius:10px;
+    background:var(--bg-2);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+  }
+  .split-row .label .name{font-size:13px;color:var(--cream);font-weight:500}
+  .split-row .label .pct{font-size:10px;color:var(--text-mute);letter-spacing:.1em;text-transform:uppercase}
+  .split-row .vals{text-align:right}
+  .split-row .vals .v1{font-family:'Fraunces',serif;font-size:17px;color:var(--cream)}
+  .split-row .vals .v2{font-size:11px;color:var(--text-mute);margin-top:1px}
+
+  .pay-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+  .pb{
+    padding:12px 10px;border-radius:12px;
+    background:var(--bg-2);border:1px solid var(--line);
+  }
+  .pb .lbl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-mute)}
+  .pb .v{font-family:'Fraunces',serif;font-size:16px;color:var(--cream);margin-top:4px;line-height:1.1}
+  .pb.zelle{background:linear-gradient(180deg,rgba(138,176,217,.1),transparent);border-color:rgba(138,176,217,.2)}
+  .pb.efectivo{background:linear-gradient(180deg,rgba(134,176,106,.1),transparent);border-color:rgba(134,176,106,.2)}
+  .pb.bs{background:linear-gradient(180deg,rgba(217,138,138,.1),transparent);border-color:rgba(217,138,138,.2)}
+
+  /* CHART */
+  .chart{
+    margin-top:14px;height:120px;
+    display:flex;align-items:flex-end;gap:6px;
+    padding:10px 0 0;
+  }
+  .bar{
+    flex:1;background:linear-gradient(180deg,var(--gold),var(--gold-soft));
+    border-radius:6px 6px 2px 2px;min-height:4px;position:relative;
+    transition:transform .2s;
+  }
+  .bar .bv{
+    position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+    font-size:10px;color:var(--text-dim);
+  }
+  .chart-x{display:flex;gap:6px;margin-top:4px}
+  .chart-x span{flex:1;text-align:center;font-size:9px;color:var(--text-mute);letter-spacing:.08em;text-transform:uppercase}
+
+  /* EMPTY */
+  .empty{
+    text-align:center;padding:40px 20px;color:var(--text-mute);
+  }
+  .empty .ico{
+    width:60px;height:60px;border-radius:50%;
+    background:var(--surface);border:1px solid var(--line);
+    margin:0 auto 14px;display:flex;align-items:center;justify-content:center;
+    color:var(--gold);
+  }
+  .empty .ttl{font-family:'Fraunces',serif;font-size:18px;color:var(--text-dim);margin-bottom:4px}
+  .empty .txt{font-size:13px}
+
+  /* SETTINGS MINI MODAL */
+  .gear{
+    position:absolute;top:32px;right:22px;
+    width:36px;height:36px;border-radius:10px;
+    background:var(--surface);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;color:var(--gold);
+  }
+  .modal-bg{
+    position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);
+    display:none;align-items:flex-end;justify-content:center;z-index:50;
+    animation:fadeIn .25s ease;
+  }
+  .modal-bg.active{display:flex}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  .modal{
+    width:100%;max-width:520px;
+    background:var(--bg-2);border-top:1px solid var(--line-strong);
+    border-radius:24px 24px 0 0;padding:22px;
+    animation:slideUp .3s ease;
+    max-height:85vh;overflow-y:auto;
+  }
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+  .modal h3{margin:0 0 4px;font-family:'Fraunces',serif;font-weight:400;font-size:22px}
+  .modal .hint{font-size:12px;color:var(--text-mute);margin-bottom:14px}
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--surface-2);border:1px solid var(--line-strong);
+    color:var(--cream);padding:12px 18px;border-radius:100px;font-size:13px;
+    opacity:0;transition:all .3s ease;z-index:100;pointer-events:none;
+    box-shadow:var(--shadow);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* HEADER ORNAMENT */
+  .ornament{
+    position:absolute;top:0;right:0;width:140px;height:140px;
+    pointer-events:none;opacity:.5;
+    background:radial-gradient(circle at 70% 30%,rgba(212,175,109,.25),transparent 60%);
+  }
+
+  @media (max-width:380px){
+    header.app h1{font-size:28px}
+    .stat .val{font-size:22px}
+  }
+</style>
+</head>
+<body>
+
+<div class="ornament"></div>
+
+<header class="app">
+  <div class="brand">
+    <span class="eyebrow">Salón privado</span>
+    <h1 class="serif">Cuentas <em>del estilista</em></h1>
+  </div>
+  <button class="gear" id="btnSettings" aria-label="Configuración">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.36.65.94 1.13 1.66 1.31H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+  </button>
+</header>
+
+<nav class="tabs">
+  <button class="active" data-tab="nuevo">Nuevo</button>
+  <button data-tab="historial">Historial</button>
+  <button data-tab="dashboard">Dashboard</button>
+</nav>
+
+<main>
+  <!-- NUEVO -->
+  <section class="screen active" id="tab-nuevo">
+
+    <div class="card">
+      <h2 class="serif">Nuevo cobro</h2>
+      <p class="sub">Registra una consulta. Tú llevas <strong style="color:var(--gold-2)">30%</strong>, el estilista <strong style="color:var(--gold-2)">70%</strong>.</p>
+
+      <div class="field">
+        <label>Descripción</label>
+        <input type="text" id="iDesc" placeholder="Corte, tinte, peinado…" />
+      </div>
+
+      <div class="field">
+        <label>Método de pago</label>
+        <div class="chips" id="payChips">
+          <button type="button" class="chip active" data-pay="zelle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+            Zelle
+          </button>
+          <button type="button" class="chip" data-pay="efectivo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+            Efectivo $
+          </button>
+          <button type="button" class="chip" data-pay="bs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H7m0 0h8a3 3 0 0 1 0 6H7"/></svg>
+            Bolívares
+          </button>
+        </div>
+      </div>
+
+      <div id="usdField" class="field">
+        <label>Monto en dólares</label>
+        <input type="number" inputmode="decimal" step="0.01" id="iUsd" placeholder="0.00" />
+      </div>
+
+      <div id="bsField" class="field" style="display:none">
+        <label>Tasa a aplicar</label>
+        <div class="rate-grid" id="rateGrid">
+          <button type="button" class="rate-card active" data-rate="bcv">
+            <div class="rname">BCV $</div>
+            <div class="rval num" id="rBcv">—</div>
+          </button>
+          <button type="button" class="rate-card" data-rate="bcvEur">
+            <div class="rname">BCV €</div>
+            <div class="rval num" id="rBcvEur">—</div>
+          </button>
+          <button type="button" class="rate-card" data-rate="binance">
+            <div class="rname">Binance</div>
+            <div class="rval num" id="rBinance">—</div>
+          </button>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <label>Monto en bolívares</label>
+          <input type="number" inputmode="decimal" step="0.01" id="iBs" placeholder="0,00" />
+        </div>
+      </div>
+
+      <div class="preview">
+        <div>
+          <div class="lbl">Equivalente</div>
+          <div class="v1 num" id="prevMain">$0.00</div>
+          <div class="v2 num" id="prevSec">Bs 0,00</div>
+        </div>
+        <div class="right">
+          <div class="lbl">Para el estilista</div>
+          <div class="v1 num" id="prevStylist" style="color:var(--green)">$0.00</div>
+          <div class="v2">70%</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnSave">Guardar consulta</button>
+    </div>
+
+  </section>
+
+  <!-- HISTORIAL -->
+  <section class="screen" id="tab-historial">
+    <div class="filter-bar" id="filterBar">
+      <button class="active" data-filter="all">Todas</button>
+      <button data-filter="zelle">Zelle</button>
+      <button data-filter="efectivo">Efectivo</button>
+      <button data-filter="bs">Bolívares</button>
+    </div>
+    <div id="historyList"></div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section class="screen" id="tab-dashboard">
+    <div class="stat-grid">
+      <div class="stat gold">
+        <div class="lbl">Total semana</div>
+        <div class="val num" id="sTotalSem">$0</div>
+        <div class="sub num" id="sTotalSemBs">Bs 0</div>
+      </div>
+      <div class="stat">
+        <div class="lbl">Consultas</div>
+        <div class="val num" id="sCount">0</div>
+        <div class="sub" id="sCountTxt">esta semana</div>
+      </div>
+    </div>
+
+    <div class="card split-card">
+      <h2 class="serif">Reparto de la semana</h2>
+      <p class="sub">Cuánto le toca a cada quien</p>
+
+      <div class="split-row">
+        <div class="label">
+          <div class="ico">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7h-3V5a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H4a1 1 0 0 0-1 1v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a1 1 0 0 0-1-1zM9 5h6v2H9z"/></svg>
+          </div>
+          <div>
+            <div class="name">Estilista</div>
+            <div class="pct">70%</div>
+          </div>
+        </div>
+        <div class="vals">
+          <div class="v1 num" id="sStylist">$0.00</div>
+          <div class="v2 num" id="sStylistBs">Bs 0,00</div>
+        </div>
+      </div>
+
+      <div class="split-row">
+        <div class="label">
+          <div class="ico" style="color:var(--green)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4M4 6v12a2 2 0 0 0 2 2h14v-4"/><circle cx="16" cy="14" r="2"/></svg>
+          </div>
+          <div>
+            <div class="name">Tú</div>
+            <div class="pct">30%</div>
+          </div>
+        </div>
+        <div class="vals">
+          <div class="v1 num" id="sMine" style="color:var(--green)">$0.00</div>
+          <div class="v2 num" id="sMineBs">Bs 0,00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="serif">Por método de pago</h2>
+      <p class="sub">Lo que recibió por cada vía esta semana</p>
+      <div class="pay-breakdown">
+        <div class="pb zelle">
+          <div class="lbl">Zelle</div>
+          <div class="v num" id="pbZelle">$0</div>
+          <div class="lbl" style="color:var(--blue);margin-top:4px" id="pbZellePct">0%</div>
+        </div>
+        <div class="pb efectivo">
+          <div class="lbl">Efectivo</div>
+          <div class="v num" id="pbEfectivo">$0</div>
+          <div class="lbl" style="color:var(--green);margin-top:4px" id="pbEfectivoPct">0%</div>
+        </div>
+        <div class="pb bs">
+          <div class="lbl">Bolívares</div>
+          <div class="v num" id="pbBs">Bs 0</div>
+          <div class="lbl" style="color:var(--rose);margin-top:4px" id="pbBsPct">0%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="serif">Últimas 6 semanas</h2>
+      <p class="sub">Total en dólares</p>
+      <div class="chart" id="chart"></div>
+      <div class="chart-x" id="chartX"></div>
+    </div>
+  </section>
+</main>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 class="serif">Configuración</h3>
+    <p class="hint">Tasas BCV y Binance. Actualízalas cuando cambien.</p>
+
+    <div class="field">
+      <label>Tasa BCV $ (Bs por 1 USD)</label>
+      <input type="number" step="0.01" id="setBcv" />
+    </div>
+    <div class="field">
+      <label>Tasa BCV € (Bs por 1 EUR)</label>
+      <input type="number" step="0.01" id="setBcvEur" />
+    </div>
+    <div class="field">
+      <label>Tasa Binance (Bs por 1 USDT)</label>
+      <input type="number" step="0.01" id="setBinance" />
+    </div>
+
+    <div style="margin-top:18px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:12px">
+      <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-mute);margin-bottom:8px">Reparto</div>
+      <div class="row-2">
+        <div class="field" style="margin:0">
+          <label>Estilista %</label>
+          <input type="number" id="setStylist" />
+        </div>
+        <div class="field" style="margin:0">
+          <label>Tuyo %</label>
+          <input type="number" id="setMine" />
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="btnSaveSettings">Guardar cambios</button>
+    <button class="btn-ghost" id="btnCloseSettings">Cancelar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, setDoc, getDoc, serverTimestamp }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  /* ============================================
+     FIREBASE: pega aquí tu configuración
+     ============================================ */
+  const firebaseConfig = {
+    apiKey: "TU_API_KEY",
+    authDomain: "TU_PROYECTO.firebaseapp.com",
+    projectId: "TU_PROYECTO",
+    storageBucket: "TU_PROYECTO.appspot.com",
+    messagingSenderId: "XXXXXXXXX",
+    appId: "1:XXXXX:web:XXXXX"
+  };
+
+  const USE_FIREBASE = !firebaseConfig.apiKey.startsWith("TU_");
+  let db = null;
+  if (USE_FIREBASE) {
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+  }
+
+  // ----- Estado -----
+  const state = {
+    entries: [],
+    settings: {
+      bcv: 100,
+      bcvEur: 110,
+      binance: 105,
+      stylist: 70,
+      mine: 30
+    },
+    payMethod: "zelle",
+    rate: "bcv",
+    filter: "all"
+  };
+
+  // ----- Helpers -----
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+  const fmtUsd = n => "$" + (Number(n)||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+  const fmtUsdShort = n => "$" + Math.round(Number(n)||0).toLocaleString("en-US");
+  const fmtBs  = n => "Bs " + (Number(n)||0).toLocaleString("es-VE",{minimumFractionDigits:2,maximumFractionDigits:2});
+  const fmtBsShort = n => "Bs " + Math.round(Number(n)||0).toLocaleString("es-VE");
+
+  function toast(msg){
+    const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"), 2200);
+  }
+
+  // ----- Persistencia local (fallback) -----
+  function loadLocal(){
+    try{
+      const e = localStorage.getItem("pelu_entries");
+      const s = localStorage.getItem("pelu_settings");
+      if(e) state.entries = JSON.parse(e);
+      if(s) state.settings = {...state.settings, ...JSON.parse(s)};
+    }catch(err){}
+  }
+  function saveLocalEntries(){ localStorage.setItem("pelu_entries", JSON.stringify(state.entries)); }
+  function saveLocalSettings(){ localStorage.setItem("pelu_settings", JSON.stringify(state.settings)); }
+
+  // ----- Firebase listeners -----
+  async function initFirebase(){
+    // Settings
+    const settingsRef = doc(db, "config", "settings");
+    const snap = await getDoc(settingsRef);
+    if (snap.exists()) state.settings = {...state.settings, ...snap.data()};
+    else await setDoc(settingsRef, state.settings);
+
+    onSnapshot(settingsRef, s => {
+      if (s.exists()){ state.settings = {...state.settings, ...s.data()}; renderAll(); }
+    });
+
+    // Entries
+    const q = query(collection(db, "entries"), orderBy("createdAt","desc"));
+    onSnapshot(q, snap => {
+      state.entries = snap.docs.map(d => ({id:d.id, ...d.data()}));
+      renderAll();
+    });
+  }
+
+  // ----- Cálculos -----
+  function entryUsd(e){ return Number(e.usd)||0; }
+  function entryBs(e){
+    if (e.method === "bs") return Number(e.bs)||0;
+    return entryUsd(e) * (state.settings.bcv||1);
+  }
+
+  function getWeekKey(date){
+    const d = new Date(date); d.setHours(0,0,0,0);
+    const day = (d.getDay()+6)%7; // lunes=0
+    d.setDate(d.getDate()-day);
+    return d.toISOString().slice(0,10);
+  }
+  function weekLabel(key){
+    const d = new Date(key);
+    const end = new Date(d); end.setDate(end.getDate()+6);
+    const fmt = x => x.toLocaleDateString("es-VE",{day:"numeric",month:"short"});
+    return `${fmt(d)} – ${fmt(end)}`;
+  }
+
+  function getEntryDate(e){
+    if (e.createdAt && e.createdAt.toDate) return e.createdAt.toDate();
+    if (e.dateMs) return new Date(e.dateMs);
+    return new Date();
+  }
+
+  // ============= RENDER =============
+
+  function renderRates(){
+    $("#rBcv").textContent     = (state.settings.bcv||0).toLocaleString("es-VE",{maximumFractionDigits:2});
+    $("#rBcvEur").textContent  = (state.settings.bcvEur||0).toLocaleString("es-VE",{maximumFractionDigits:2});
+    $("#rBinance").textContent = (state.settings.binance||0).toLocaleString("es-VE",{maximumFractionDigits:2});
+  }
+
+  function renderHeaderRate(){
+    // Pequeña pastilla con la tasa BCV (referencia)
+  }
+
+  function renderPreview(){
+    const usdInput = parseFloat($("#iUsd").value)||0;
+    const bsInput  = parseFloat($("#iBs").value)||0;
+    let usd=0, bs=0;
+    if (state.payMethod === "bs"){
+      const r = state.settings[state.rate]||1;
+      bs  = bsInput;
+      usd = bsInput / (r||1);
+    } else {
+      usd = usdInput;
+      bs  = usdInput * (state.settings.bcv||1);
+    }
+    const stylistPct = (state.settings.stylist||70)/100;
+    $("#prevMain").textContent    = fmtUsd(usd);
+    $("#prevSec").textContent     = fmtBs(bs);
+    $("#prevStylist").textContent = fmtUsd(usd*stylistPct);
+  }
+
+  function renderHistory(){
+    const list = $("#historyList");
+    let entries = [...state.entries];
+    if (state.filter !== "all") entries = entries.filter(e => e.method === state.filter);
+
+    if (!entries.length){
+      list.innerHTML = `
+        <div class="empty">
+          <div class="ico">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="ttl">Sin registros</div>
+          <div class="txt">Registra tu primera consulta en la pestaña <em>Nuevo</em></div>
+        </div>`;
+      return;
+    }
+
+    // Agrupar por semana
+    const groups = {};
+    entries.forEach(e => {
+      const k = getWeekKey(getEntryDate(e));
+      (groups[k] = groups[k] || []).push(e);
+    });
+
+    const keys = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+    list.innerHTML = keys.map(k => {
+      const items = groups[k];
+      const totalUsd = items.reduce((s,e)=>s+entryUsd(e),0);
+      return `
+        <div class="week-group">
+          <div class="week-head">
+            <div class="wtitle serif">${weekLabel(k)}</div>
+            <div class="wtotal num">${fmtUsd(totalUsd)}</div>
+          </div>
+          ${items.map(e=>renderEntry(e)).join("")}
+        </div>`;
+    }).join("");
+
+    // Delete handlers
+    $$(".entry .del").forEach(b=>{
+      b.addEventListener("click", async ()=>{
+        const id = b.dataset.id;
+        if (!confirm("¿Eliminar este registro?")) return;
+        if (USE_FIREBASE){
+          await deleteDoc(doc(db,"entries",id));
+        } else {
+          state.entries = state.entries.filter(e=>e.id!==id);
+          saveLocalEntries(); renderAll();
+        }
+        toast("Registro eliminado");
+      });
+    });
+  }
+
+  function renderEntry(e){
+    const usd = entryUsd(e);
+    const bs  = entryBs(e);
+    const date = getEntryDate(e);
+    const dateStr = date.toLocaleDateString("es-VE",{day:"numeric",month:"short"})
+      + " · " + date.toLocaleTimeString("es-VE",{hour:"2-digit",minute:"2-digit"});
+    let methodLabel = e.method === "zelle" ? "Zelle" : e.method === "efectivo" ? "Efectivo $" : "Bolívares";
+    let rateLabel = "";
+    if (e.method === "bs"){
+      const rmap = {bcv:"BCV $",bcvEur:"BCV €",binance:"Binance"};
+      rateLabel = rmap[e.rate] || "";
+    }
+    return `
+      <div class="entry">
+        <div class="left">
+          <div class="desc">${escapeHtml(e.desc || "Consulta")}</div>
+          <div class="meta">
+            <span>${dateStr}</span>
+            <span class="tag ${e.method}">${methodLabel}</span>
+            ${rateLabel ? `<span class="tag">${rateLabel}</span>` : ""}
+          </div>
+        </div>
+        <div class="right">
+          <div class="amt num">${fmtUsd(usd)}</div>
+          <div class="amt-sec num">${fmtBs(bs)}</div>
+        </div>
+        <button class="del" data-id="${e.id}" aria-label="Eliminar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+        </button>
+      </div>`;
+  }
+
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+
+  function renderDashboard(){
+    const now = new Date();
+    const wk  = getWeekKey(now);
+    const week = state.entries.filter(e => getWeekKey(getEntryDate(e)) === wk);
+
+    const totalUsd = week.reduce((s,e)=>s+entryUsd(e),0);
+    const totalBs  = week.reduce((s,e)=>s+entryBs(e),0);
+    const stylistPct = (state.settings.stylist||70)/100;
+    const minePct = (state.settings.mine||30)/100;
+
+    $("#sTotalSem").textContent   = fmtUsdShort(totalUsd);
+    $("#sTotalSemBs").textContent = fmtBsShort(totalBs);
+    $("#sCount").textContent      = week.length;
+    $("#sCountTxt").textContent   = week.length === 1 ? "consulta esta semana" : "consultas esta semana";
+
+    $("#sStylist").textContent    = fmtUsd(totalUsd*stylistPct);
+    $("#sStylistBs").textContent  = fmtBs(totalBs*stylistPct);
+    $("#sMine").textContent       = fmtUsd(totalUsd*minePct);
+    $("#sMineBs").textContent     = fmtBs(totalBs*minePct);
+
+    // Por método (en USD)
+    const byMethod = {zelle:0, efectivo:0, bs:0};
+    week.forEach(e => byMethod[e.method] = (byMethod[e.method]||0) + entryUsd(e));
+    const total = totalUsd || 1;
+    $("#pbZelle").textContent    = fmtUsdShort(byMethod.zelle);
+    $("#pbEfectivo").textContent = fmtUsdShort(byMethod.efectivo);
+    const bsAmt = week.filter(e=>e.method==="bs").reduce((s,e)=>s+entryBs(e),0);
+    $("#pbBs").textContent       = fmtBsShort(bsAmt);
+    $("#pbZellePct").textContent    = Math.round((byMethod.zelle/total)*100)+"%";
+    $("#pbEfectivoPct").textContent = Math.round((byMethod.efectivo/total)*100)+"%";
+    $("#pbBsPct").textContent       = Math.round((byMethod.bs/total)*100)+"%";
+
+    // Chart 6 semanas
+    const weeks = [];
+    for (let i=5;i>=0;i--){
+      const d = new Date(); d.setDate(d.getDate()-i*7);
+      const k = getWeekKey(d);
+      const items = state.entries.filter(e => getWeekKey(getEntryDate(e)) === k);
+      const sum = items.reduce((s,e)=>s+entryUsd(e),0);
+      weeks.push({k, sum, label: weekLabel(k).split(" – ")[0]});
+    }
+    const max = Math.max(...weeks.map(w=>w.sum), 1);
+    $("#chart").innerHTML = weeks.map(w=>{
+      const h = (w.sum/max)*100;
+      return `<div class="bar" style="height:${Math.max(h,2)}%">${w.sum>0?`<div class="bv num">${fmtUsdShort(w.sum)}</div>`:""}</div>`;
+    }).join("");
+    $("#chartX").innerHTML = weeks.map(w=>`<span>${w.label}</span>`).join("");
+  }
+
+  function renderAll(){
+    renderRates();
+    renderPreview();
+    renderHistory();
+    renderDashboard();
+  }
+
+  // ============= EVENTOS =============
+
+  // Tabs
+  $$("nav.tabs button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      $$("nav.tabs button").forEach(x=>x.classList.remove("active"));
+      b.classList.add("active");
+      $$(".screen").forEach(s=>s.classList.remove("active"));
+      $("#tab-"+b.dataset.tab).classList.add("active");
+    });
+  });
+
+  // Pay chips
+  $$("#payChips .chip").forEach(c=>{
+    c.addEventListener("click",()=>{
+      $$("#payChips .chip").forEach(x=>x.classList.remove("active"));
+      c.classList.add("active");
+      state.payMethod = c.dataset.pay;
+      const isBs = state.payMethod === "bs";
+      $("#bsField").style.display  = isBs ? "" : "none";
+      $("#usdField").style.display = isBs ? "none" : "";
+      renderPreview();
+    });
+  });
+
+  // Rate cards
+  $$("#rateGrid .rate-card").forEach(c=>{
+    c.addEventListener("click",()=>{
+      $$("#rateGrid .rate-card").forEach(x=>x.classList.remove("active"));
+      c.classList.add("active");
+      state.rate = c.dataset.rate;
+      renderPreview();
+    });
+  });
+
+  // Inputs preview
+  $("#iUsd").addEventListener("input", renderPreview);
+  $("#iBs").addEventListener("input", renderPreview);
+
+  // Filter
+  $$("#filterBar button").forEach(b=>{
+    b.addEventListener("click",()=>{
+      $$("#filterBar button").forEach(x=>x.classList.remove("active"));
+      b.classList.add("active");
+      state.filter = b.dataset.filter;
+      renderHistory();
+    });
+  });
+
+  // Save entry
+  $("#btnSave").addEventListener("click", async ()=>{
+    const desc = $("#iDesc").value.trim();
+    if (!desc){ toast("Pon una descripción"); return; }
+
+    let entry = {
+      desc,
+      method: state.payMethod,
+      dateMs: Date.now()
+    };
+
+    if (state.payMethod === "bs"){
+      const bs = parseFloat($("#iBs").value)||0;
+      if (!bs){ toast("Pon el monto en bolívares"); return; }
+      const r = state.settings[state.rate]||1;
+      entry.bs  = bs;
+      entry.usd = bs / r;
+      entry.rate = state.rate;
+      entry.rateUsed = r;
+    } else {
+      const usd = parseFloat($("#iUsd").value)||0;
+      if (!usd){ toast("Pon el monto en dólares"); return; }
+      entry.usd = usd;
+    }
+
+    if (USE_FIREBASE){
+      entry.createdAt = serverTimestamp();
+      await addDoc(collection(db,"entries"), entry);
+    } else {
+      entry.id = "l"+Date.now();
+      state.entries.unshift(entry);
+      saveLocalEntries(); renderAll();
+    }
+
+    // Reset
+    $("#iDesc").value = "";
+    $("#iUsd").value = "";
+    $("#iBs").value = "";
+    renderPreview();
+    toast("Guardado ✓");
+  });
+
+  // Settings
+  $("#btnSettings").addEventListener("click",()=>{
+    $("#setBcv").value     = state.settings.bcv;
+    $("#setBcvEur").value  = state.settings.bcvEur;
+    $("#setBinance").value = state.settings.binance;
+    $("#setStylist").value = state.settings.stylist;
+    $("#setMine").value    = state.settings.mine;
+    $("#modalBg").classList.add("active");
+  });
+  $("#btnCloseSettings").addEventListener("click",()=>$("#modalBg").classList.remove("active"));
+  $("#modalBg").addEventListener("click",(e)=>{ if(e.target.id==="modalBg") $("#modalBg").classList.remove("active");});
+
+  $("#btnSaveSettings").addEventListener("click", async ()=>{
+    state.settings = {
+      bcv:     parseFloat($("#setBcv").value)||0,
+      bcvEur:  parseFloat($("#setBcvEur").value)||0,
+      binance: parseFloat($("#setBinance").value)||0,
+      stylist: parseFloat($("#setStylist").value)||70,
+      mine:    parseFloat($("#setMine").value)||30
+    };
+    if (USE_FIREBASE){
+      await setDoc(doc(db,"config","settings"), state.settings);
+    } else {
+      saveLocalSettings(); renderAll();
+    }
+    $("#modalBg").classList.remove("active");
+    toast("Tasas actualizadas ✓");
+  });
+
+  // ============= INIT =============
+  loadLocal();
+  if (USE_FIREBASE) initFirebase().catch(err=>{ console.error(err); toast("Error Firebase: revisa la config"); });
+  renderAll();
+</script>
+
+</body>
+</html>
