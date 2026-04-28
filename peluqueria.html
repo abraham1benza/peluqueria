@@ -10,32 +10,18 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#fdf6f3;
-    --bg-2:#faeee8;
-    --surface:#ffffff;
-    --surface-2:#fff8f5;
-    --line:#f0d9cf;
-    --line-soft:#f7e6dd;
-    --primary:#e87b6b;
-    --primary-dark:#d05d4d;
-    --primary-soft:#fde0d8;
-    --accent:#a594d1;
-    --accent-soft:#ede7f6;
-    --mint:#7fc5a4;
-    --mint-soft:#dff3e8;
-    --sun:#f3b95f;
-    --sun-soft:#fde9c9;
-    --rose:#e6849a;
-    --rose-soft:#fce0e6;
-    --text:#3d2a26;
-    --text-2:#6b524d;
-    --text-mute:#a08a85;
+    --bg:#fdf6f3;--bg-2:#faeee8;--surface:#ffffff;--surface-2:#fff8f5;
+    --line:#f0d9cf;--line-soft:#f7e6dd;
+    --primary:#e87b6b;--primary-dark:#d05d4d;--primary-soft:#fde0d8;
+    --accent:#a594d1;--accent-soft:#ede7f6;
+    --mint:#7fc5a4;--mint-soft:#dff3e8;--mint-dark:#4f9272;
+    --sun:#f3b95f;--sun-soft:#fde9c9;
+    --rose:#e6849a;--rose-soft:#fce0e6;
+    --text:#3d2a26;--text-2:#6b524d;--text-mute:#a08a85;
     --shadow-sm:0 2px 8px rgba(232,123,107,.08);
     --shadow:0 8px 24px rgba(61,42,38,.08), 0 2px 6px rgba(61,42,38,.04);
     --shadow-lg:0 20px 50px rgba(61,42,38,.12);
-    --radius:20px;
-    --radius-sm:14px;
-    --sidebar-w:230px;
+    --radius:20px;--radius-sm:14px;--sidebar-w:230px;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;line-height:1.5;overscroll-behavior:none}
@@ -47,7 +33,7 @@
 
   .app{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:100vh}
 
-  .sidebar{background:var(--surface);border-right:1px solid var(--line-soft);padding:28px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:30}
+  .sidebar{background:var(--surface);border-right:1px solid var(--line-soft);padding:28px 18px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:30;overflow-y:auto}
   .logo{display:flex;align-items:center;gap:10px;margin-bottom:32px;padding:0 6px}
   .logo .mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--rose));display:flex;align-items:center;justify-content:center;color:white;box-shadow:0 6px 16px rgba(232,123,107,.35)}
   .logo .name{font-family:'DM Serif Display',serif;font-size:20px;line-height:1;color:var(--text)}
@@ -100,7 +86,7 @@
   .chip{padding:16px 8px;border-radius:14px;background:var(--surface-2);border:1.5px solid var(--line-soft);text-align:center;font-size:13px;font-weight:600;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text-2)}
   .chip svg{width:22px;height:22px}
   .chip[data-pay="zelle"].active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
-  .chip[data-pay="efectivo"].active{background:var(--mint-soft);border-color:var(--mint);color:#4f9272}
+  .chip[data-pay="efectivo"].active{background:var(--mint-soft);border-color:var(--mint);color:var(--mint-dark)}
   .chip[data-pay="bs"].active{background:var(--sun-soft);border-color:var(--sun);color:#b8801c}
 
   .rate-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:8px}
@@ -122,9 +108,13 @@
   .preview .col .v2{font-size:13px;color:var(--text-2);margin-top:4px;font-weight:500}
   .preview .col.right{text-align:right}
   .preview .col.right .v1{color:var(--primary-dark)}
+  /* preview verde para pagos */
+  .preview.green{background:linear-gradient(135deg,var(--mint-soft) 0%,var(--surface-2) 100%)}
+  .preview.green .col.right .v1{color:var(--mint-dark)}
 
   .btn-primary{width:100%;margin-top:18px;padding:16px;border-radius:14px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;font-weight:700;font-size:15px;letter-spacing:.02em;box-shadow:0 8px 20px rgba(232,123,107,.32);transition:all .15s}
   .btn-primary:active{transform:scale(.985);box-shadow:0 4px 12px rgba(232,123,107,.32)}
+  .btn-primary.green{background:linear-gradient(135deg,var(--mint),var(--mint-dark));box-shadow:0 8px 20px rgba(127,197,164,.32)}
   .btn-secondary{width:100%;padding:13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--text-2);font-weight:600;font-size:13px}
 
   .filter-bar{display:flex;gap:8px;overflow-x:auto;margin-bottom:18px;scrollbar-width:none}
@@ -137,6 +127,7 @@
   .week-head{display:flex;justify-content:space-between;align-items:baseline;padding:0 4px 10px;margin-bottom:10px;border-bottom:1px dashed var(--line)}
   .week-head .wtitle{font-family:'DM Serif Display',serif;font-size:19px;color:var(--text)}
   .week-head .wtotal{font-size:13px;color:var(--primary-dark);font-weight:700}
+  .week-head .wtotal.green{color:var(--mint-dark)}
 
   .entry{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:relative;transition:all .2s}
   .entry:hover{border-color:var(--line);box-shadow:var(--shadow-sm)}
@@ -145,11 +136,13 @@
   .entry .meta{font-size:11px;color:var(--text-mute);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
   .entry .meta .tag{padding:3px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
   .entry .meta .tag.zelle{background:var(--accent-soft);color:#7d6ab0}
-  .entry .meta .tag.efectivo{background:var(--mint-soft);color:#4f9272}
+  .entry .meta .tag.efectivo{background:var(--mint-soft);color:var(--mint-dark)}
   .entry .meta .tag.bs{background:var(--sun-soft);color:#b8801c}
   .entry .meta .tag.rate{background:var(--surface-2);color:var(--text-mute)}
   .entry .right{text-align:right;flex-shrink:0}
   .entry .amt{font-family:'DM Serif Display',serif;font-size:19px;color:var(--text);line-height:1.1}
+  .entry.payment .amt{color:var(--mint-dark)}
+  .entry.payment .amt::before{content:"− "}
   .entry .amt-sec{font-size:11px;color:var(--text-mute);margin-top:3px;font-weight:500}
   .entry .del{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:8px;color:var(--text-mute);opacity:0;transition:opacity .2s;display:flex;align-items:center;justify-content:center}
   .entry:hover .del{opacity:1}
@@ -163,20 +156,26 @@
   .stat.primary{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border:none;color:white}
   .stat.primary .lbl,.stat.primary .sub{color:rgba(255,255,255,.85)}
   .stat.primary .val{color:white}
+  .stat.green{background:linear-gradient(135deg,var(--mint),var(--mint-dark));border:none;color:white}
+  .stat.green .lbl,.stat.green .sub{color:rgba(255,255,255,.85)}
+  .stat.green .val{color:white}
+  .stat.warn{background:linear-gradient(135deg,var(--sun),#e0a040);border:none;color:white}
+  .stat.warn .lbl,.stat.warn .sub{color:rgba(255,255,255,.9)}
+  .stat.warn .val{color:white}
 
-  .split-card{margin-bottom:14px}
-  .split-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line-soft)}
-  .split-row:last-child{border-bottom:none;padding-bottom:0}
-  .split-row:first-of-type{padding-top:14px}
-  .split-row .label{display:flex;align-items:center;gap:12px}
-  .split-row .label .ico{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center}
-  .split-row.stylist .ico{background:var(--primary-soft);color:var(--primary-dark)}
-  .split-row.mine .ico{background:var(--mint-soft);color:#4f9272}
-  .split-row .label .name{font-size:14px;color:var(--text);font-weight:700}
-  .split-row .label .pct{font-size:11px;color:var(--text-mute);font-weight:500}
-  .split-row .vals{text-align:right}
-  .split-row .vals .v1{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text)}
-  .split-row .vals .v2{font-size:11px;color:var(--text-mute);margin-top:2px;font-weight:500}
+  .balance-rows{margin-top:14px}
+  .balance-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line-soft)}
+  .balance-row:last-child{border-bottom:none;padding-bottom:0}
+  .balance-row:first-child{padding-top:0}
+  .balance-row .label{display:flex;align-items:center;gap:12px}
+  .balance-row .label .ico{width:38px;height:38px;border-radius:11px;background:var(--surface-2);color:var(--text-2);display:flex;align-items:center;justify-content:center}
+  .balance-row .label .name{font-size:14px;color:var(--text);font-weight:700}
+  .balance-row .label .desc{font-size:11px;color:var(--text-mute);font-weight:500}
+  .balance-row .vals{text-align:right}
+  .balance-row .vals .v1{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text)}
+  .balance-row .vals .v1.pending{color:var(--primary-dark)}
+  .balance-row .vals .v1.zero{color:var(--mint-dark)}
+  .balance-row .vals .v2{font-size:11px;color:var(--text-mute);margin-top:2px;font-weight:500}
 
   .pay-breakdown{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
   .pb{padding:14px 12px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line-soft)}
@@ -186,7 +185,7 @@
   .pb.zelle{background:var(--accent-soft)}
   .pb.zelle .pct{color:#7d6ab0}
   .pb.efectivo{background:var(--mint-soft)}
-  .pb.efectivo .pct{color:#4f9272}
+  .pb.efectivo .pct{color:var(--mint-dark)}
   .pb.bs{background:var(--sun-soft)}
   .pb.bs .pct{color:#b8801c}
 
@@ -198,6 +197,7 @@
 
   .empty{text-align:center;padding:50px 20px;color:var(--text-mute)}
   .empty .ico{width:70px;height:70px;border-radius:50%;background:var(--primary-soft);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:var(--primary)}
+  .empty.green .ico{background:var(--mint-soft);color:var(--mint-dark)}
   .empty .ttl{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text-2);margin-bottom:6px}
   .empty .txt{font-size:13px}
 
@@ -258,6 +258,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
         Nuevo cobro
       </button>
+      <button data-tab="pagos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
+        Pagos
+      </button>
       <button data-tab="historial">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/></svg>
         Historial
@@ -283,62 +287,77 @@
   </aside>
 
   <main class="main">
+
+    <!-- ============ DASHBOARD ============ -->
     <section class="screen active" id="tab-dashboard">
       <div class="page-head">
         <div>
           <h1 class="ttl">Hola <em>bonita</em> ✨</h1>
-          <div class="sub">Resumen de tu semana</div>
+          <div class="sub">Tu resumen general</div>
         </div>
       </div>
 
+      <!-- Saldos pendientes (lo más importante) -->
       <div class="stat-grid">
-        <div class="stat primary">
-          <div class="lbl">Total semana</div>
-          <div class="val num" id="sTotalSem">$0</div>
-          <div class="sub num" id="sTotalSemBs">Bs 0</div>
+        <div class="stat warn">
+          <div class="lbl">Te debe en total</div>
+          <div class="val num" id="sDebeTotal">$0</div>
+          <div class="sub num" id="sDebeTotalBs">Bs 0</div>
         </div>
         <div class="stat">
-          <div class="lbl">Consultas</div>
-          <div class="val num" id="sCount">0</div>
-          <div class="sub" id="sCountTxt">esta semana</div>
+          <div class="lbl">Te debe esta semana</div>
+          <div class="val num" id="sDebeWeek">$0</div>
+          <div class="sub num" id="sDebeWeekBs">Bs 0</div>
         </div>
         <div class="stat">
-          <div class="lbl">Promedio</div>
-          <div class="val num" id="sAvg">$0</div>
-          <div class="sub">por consulta</div>
+          <div class="lbl">Te debe este mes</div>
+          <div class="val num" id="sDebeMonth">$0</div>
+          <div class="sub num" id="sDebeMonthBs">Bs 0</div>
         </div>
       </div>
 
-      <div class="card split-card">
-        <h2 class="serif">Reparto de la semana</h2>
-        <p class="sub">Cuánto le toca a cada quien</p>
+      <!-- Resumen del cobro de la semana -->
+      <div class="card">
+        <h2 class="serif">Esta semana</h2>
+        <p class="sub">Cobros registrados y reparto</p>
 
-        <div class="split-row stylist">
-          <div class="label">
-            <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-            <div><div class="name">Estilista</div><div class="pct" id="sStylistPct">70%</div></div>
+        <div class="balance-rows">
+          <div class="balance-row">
+            <div class="label">
+              <div class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+              <div><div class="name">Total cobrado</div><div class="desc" id="sCountTxt">0 consultas</div></div>
+            </div>
+            <div class="vals">
+              <div class="v1 num" id="sTotalSem">$0.00</div>
+              <div class="v2 num" id="sTotalSemBs">Bs 0</div>
+            </div>
           </div>
-          <div class="vals">
-            <div class="v1 num" id="sStylist">$0.00</div>
-            <div class="v2 num" id="sStylistBs">Bs 0,00</div>
+          <div class="balance-row">
+            <div class="label">
+              <div class="ico" style="background:var(--primary-soft);color:var(--primary-dark)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+              <div><div class="name">Estilista</div><div class="desc" id="sStylistPct">70%</div></div>
+            </div>
+            <div class="vals">
+              <div class="v1 num" id="sStylist">$0.00</div>
+              <div class="v2 num" id="sStylistBs">Bs 0</div>
+            </div>
           </div>
-        </div>
-
-        <div class="split-row mine">
-          <div class="label">
-            <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/><path d="M7 6V4h10v2"/></svg></div>
-            <div><div class="name">Tú</div><div class="pct" id="sMinePct">30%</div></div>
-          </div>
-          <div class="vals">
-            <div class="v1 num" id="sMine">$0.00</div>
-            <div class="v2 num" id="sMineBs">Bs 0,00</div>
+          <div class="balance-row">
+            <div class="label">
+              <div class="ico" style="background:var(--mint-soft);color:var(--mint-dark)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><circle cx="12" cy="12.5" r="2.5"/></svg></div>
+              <div><div class="name">Tu parte</div><div class="desc" id="sMinePct">30% — lo que te debe</div></div>
+            </div>
+            <div class="vals">
+              <div class="v1 num pending" id="sMine">$0.00</div>
+              <div class="v2 num" id="sMineBs">Bs 0</div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="card">
         <h2 class="serif">Por método de pago</h2>
-        <p class="sub">Lo recibido por cada vía esta semana</p>
+        <p class="sub">Cómo cobró esta semana</p>
         <div class="pay-breakdown">
           <div class="pb zelle"><div class="lbl">Zelle</div><div class="v num" id="pbZelle">$0</div><div class="pct" id="pbZellePct">0%</div></div>
           <div class="pb efectivo"><div class="lbl">Efectivo</div><div class="v num" id="pbEfectivo">$0</div><div class="pct" id="pbEfectivoPct">0%</div></div>
@@ -348,17 +367,18 @@
 
       <div class="card">
         <h2 class="serif">Últimas 6 semanas</h2>
-        <p class="sub">Total recibido en dólares</p>
+        <p class="sub">Total cobrado en dólares</p>
         <div class="chart" id="chart"></div>
         <div class="chart-x" id="chartX"></div>
       </div>
     </section>
 
+    <!-- ============ NUEVO COBRO ============ -->
     <section class="screen" id="tab-nuevo">
       <div class="page-head">
         <div>
           <h1 class="ttl">Nuevo <em>cobro</em></h1>
-          <div class="sub">Registra una consulta de tu estilista</div>
+          <div class="sub">Registra una consulta del estilista</div>
         </div>
       </div>
 
@@ -369,7 +389,7 @@
         </div>
 
         <div class="field">
-          <label>Método de pago</label>
+          <label>Método de pago del cliente</label>
           <div class="chips" id="payChips">
             <button type="button" class="chip active" data-pay="zelle">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
@@ -423,31 +443,139 @@
 
         <div class="preview">
           <div class="col">
-            <div class="lbl">Equivalente</div>
+            <div class="lbl">Total cobrado</div>
             <div class="v1 num" id="prevMain">$0.00</div>
             <div class="v2 num" id="prevSec">Bs 0,00</div>
           </div>
           <div class="col right">
-            <div class="lbl" id="prevStylistLbl">Para el estilista (70%)</div>
-            <div class="v1 num" id="prevStylist">$0.00</div>
-            <div class="v2 num" id="prevStylistBs">Bs 0,00</div>
+            <div class="lbl" id="prevMineLbl">Tu parte (30%)</div>
+            <div class="v1 num" id="prevMine">$0.00</div>
+            <div class="v2 num" id="prevMineBs">Bs 0,00</div>
           </div>
         </div>
 
-        <button class="btn-primary" id="btnSave">Guardar consulta</button>
+        <button class="btn-primary" id="btnSave">Guardar cobro</button>
       </div>
     </section>
 
+    <!-- ============ PAGOS ============ -->
+    <section class="screen" id="tab-pagos">
+      <div class="page-head">
+        <div>
+          <h1 class="ttl">Pagos <em>recibidos</em></h1>
+          <div class="sub">Registra cuando el estilista te paga tu parte</div>
+        </div>
+      </div>
+
+      <!-- Saldo grande arriba -->
+      <div class="stat-grid" style="grid-template-columns:1fr">
+        <div class="stat warn">
+          <div class="lbl">Saldo pendiente que te debe</div>
+          <div class="val num" id="pDebeTotal">$0</div>
+          <div class="sub num" id="pDebeTotalBs">Bs 0</div>
+        </div>
+      </div>
+
+      <!-- Form para registrar pago -->
+      <div class="card">
+        <h2 class="serif">Registrar nuevo pago</h2>
+        <p class="sub">Cuando el estilista te paga tu 30%</p>
+
+        <div class="field">
+          <label>Nota (opcional)</label>
+          <input type="text" id="payDesc" placeholder="Pago semana del 15…" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label>Método de pago</label>
+          <div class="chips" id="payChipsP">
+            <button type="button" class="chip active" data-pay="zelle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>
+              Zelle
+            </button>
+            <button type="button" class="chip" data-pay="efectivo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+              Efectivo $
+            </button>
+            <button type="button" class="chip" data-pay="bs">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H7m0 0h8a3 3 0 0 1 0 6H7"/></svg>
+              Bolívares
+            </button>
+          </div>
+        </div>
+
+        <div id="usdFieldP" class="field">
+          <label>Monto en dólares</label>
+          <input type="number" inputmode="decimal" step="0.01" id="payUsd" placeholder="0.00" />
+        </div>
+
+        <div id="bsFieldP" class="field" style="display:none">
+          <label>Tasa a aplicar</label>
+          <div class="rate-grid" id="rateGridP">
+            <button type="button" class="rate-card active" data-rate="bcv">
+              <div class="rname">BCV $</div>
+              <div class="rval num" id="rBcvP">—</div>
+              <div class="rsource">Oficial · USD</div>
+            </button>
+            <button type="button" class="rate-card" data-rate="bcvEur">
+              <div class="rname">BCV €</div>
+              <div class="rval num" id="rBcvEurP">—</div>
+              <div class="rsource">Oficial · EUR</div>
+            </button>
+            <button type="button" class="rate-card" data-rate="binance">
+              <div class="rname">Binance</div>
+              <div class="rval num" id="rBinanceP">—</div>
+              <div class="rsource">Mercado · USDT</div>
+            </button>
+            <button type="button" class="rate-card custom" data-rate="custom">
+              <div class="rname">Mi tasa</div>
+              <input type="number" step="0.01" class="custom-input num" id="customRateP" placeholder="500" />
+              <div class="rsource">Personalizada</div>
+            </button>
+          </div>
+          <div class="field" style="margin-top:14px">
+            <label>Monto en bolívares</label>
+            <input type="number" inputmode="decimal" step="0.01" id="payBs" placeholder="0,00" />
+          </div>
+        </div>
+
+        <div class="preview green">
+          <div class="col">
+            <div class="lbl">Pago a registrar</div>
+            <div class="v1 num" id="prevPayMain">$0.00</div>
+            <div class="v2 num" id="prevPaySec">Bs 0,00</div>
+          </div>
+          <div class="col right">
+            <div class="lbl">Saldo después del pago</div>
+            <div class="v1 num" id="prevPayBalance">$0.00</div>
+            <div class="v2 num" id="prevPayBalanceBs">Bs 0,00</div>
+          </div>
+        </div>
+
+        <button class="btn-primary green" id="btnSavePay">Registrar pago</button>
+      </div>
+
+      <!-- Historial de pagos -->
+      <div class="card" style="margin-top:14px">
+        <h2 class="serif">Pagos recibidos</h2>
+        <p class="sub">Últimos pagos del estilista</p>
+        <div id="paymentsList" style="margin-top:14px"></div>
+      </div>
+    </section>
+
+    <!-- ============ HISTORIAL ============ -->
     <section class="screen" id="tab-historial">
       <div class="page-head">
         <div>
           <h1 class="ttl">Historial</h1>
-          <div class="sub">Todas tus consultas, agrupadas por semana</div>
+          <div class="sub">Cobros y pagos, agrupados por semana</div>
         </div>
       </div>
 
       <div class="filter-bar" id="filterBar">
-        <button class="active" data-filter="all">Todas</button>
+        <button class="active" data-filter="all">Todo</button>
+        <button data-filter="cobros">Solo cobros</button>
+        <button data-filter="pagos">Solo pagos</button>
         <button data-filter="zelle">Zelle</button>
         <button data-filter="efectivo">Efectivo</button>
         <button data-filter="bs">Bolívares</button>
@@ -466,7 +594,7 @@
       <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-mute);margin-bottom:10px;font-weight:700">Reparto del cobro</div>
       <div class="row-2">
         <div class="field" style="margin:0"><label>Estilista %</label><input type="number" id="setStylist" min="0" max="100" /></div>
-        <div class="field" style="margin:0"><label>Tuyo %</label><input type="number" id="setMine" min="0" max="100" /></div>
+        <div class="field" style="margin:0"><label>Tu parte %</label><input type="number" id="setMine" min="0" max="100" /></div>
       </div>
     </div>
 
@@ -493,7 +621,7 @@
   /* ============================================
      FIREBASE: pega aquí tu configuración.
      Mientras tenga "TU_API_KEY", la app guarda
-     en el navegador (localStorage) y funciona igual.
+     en el navegador (localStorage).
      ============================================ */
   const firebaseConfig = {
     apiKey: "TU_API_KEY",
@@ -512,10 +640,12 @@
   }
 
   const state = {
-    entries: [],
+    entries: [],   // type:"charge" o type:"payment"
     settings: { bcv: 0, bcvEur: 0, binance: 0, stylist: 70, mine: 30, lastUpdate: null },
     payMethod: "zelle",
     rate: "bcv",
+    payMethodP: "zelle",
+    rateP: "bcv",
     filter: "all"
   };
 
@@ -536,7 +666,11 @@
     try{
       const e = localStorage.getItem("pelu_entries");
       const s = localStorage.getItem("pelu_settings");
-      if(e) state.entries = JSON.parse(e);
+      if(e){
+        state.entries = JSON.parse(e);
+        // migración: entradas viejas sin type son "charge"
+        state.entries.forEach(en => { if(!en.type) en.type = "charge"; });
+      }
       if(s) state.settings = {...state.settings, ...JSON.parse(s)};
     }catch(err){}
   }
@@ -550,10 +684,14 @@
     else await setDoc(settingsRef, state.settings);
     onSnapshot(settingsRef, s => { if (s.exists()){ state.settings = {...state.settings, ...s.data()}; renderAll(); } });
     const q = query(collection(db, "entries"), orderBy("createdAt","desc"));
-    onSnapshot(q, snap => { state.entries = snap.docs.map(d => ({id:d.id, ...d.data()})); renderAll(); });
+    onSnapshot(q, snap => {
+      state.entries = snap.docs.map(d => ({id:d.id, ...d.data()}));
+      state.entries.forEach(en => { if(!en.type) en.type = "charge"; });
+      renderAll();
+    });
   }
 
-  // ============ FETCH TASAS REALES ============
+  // FETCH TASAS
   async function fetchRates(silent=false){
     const btn = $("#btnRefreshRates");
     btn.classList.add("loading");
@@ -600,20 +738,15 @@
 
       if (USE_FIREBASE){
         await setDoc(doc(db,"config","settings"), state.settings, {merge:true});
-      } else {
-        saveLocalSettings();
-      }
+      } else { saveLocalSettings(); }
 
       renderAll();
       if(!silent) toast("Tasas actualizadas ✓");
-    } catch(err){
-      console.error(err);
-      toast("No se pudieron cargar las tasas");
-    } finally {
-      btn.classList.remove("loading");
-    }
+    } catch(err){ console.error(err); toast("No se pudieron cargar las tasas"); }
+    finally { btn.classList.remove("loading"); }
   }
 
+  // ============ HELPERS DATOS ============
   function entryUsd(e){ return Number(e.usd)||0; }
   function entryBs(e){
     if (e.method === "bs") return Number(e.bs)||0;
@@ -636,51 +769,115 @@
     const fmt = x => x.toLocaleDateString("es-VE",{day:"numeric",month:"short"});
     return `${fmt(d)} – ${fmt(end)}`;
   }
+  function getMonthKey(date){
+    const d = new Date(date);
+    return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");
+  }
+  function isThisWeek(d){ return getWeekKey(d) === getWeekKey(new Date()); }
+  function isThisMonth(d){
+    const now = new Date();
+    return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth();
+  }
+
+  // CÁLCULOS DE SALDO
+  // - Cada cobro genera "tu parte" = monto * (mine/100)
+  // - Cada pago resta del saldo
+  function calcOwed(entries){
+    const minePct = (state.settings.mine||30)/100;
+    let usd = 0, bs = 0;
+    for (const e of entries){
+      if (e.type === "charge"){
+        usd += entryUsd(e) * minePct;
+        bs  += entryBs(e) * minePct;
+      } else if (e.type === "payment"){
+        usd -= entryUsd(e);
+        bs  -= entryBs(e);
+      }
+    }
+    return { usd, bs };
+  }
+
   function getActiveRate(){
     if (state.rate === "custom") return Number($("#customRate").value)||0;
     return state.settings[state.rate]||0;
   }
-
-  function renderRates(){
-    $("#rBcv").textContent     = state.settings.bcv ? fmtRate(state.settings.bcv) : "—";
-    $("#rBcvEur").textContent  = state.settings.bcvEur ? fmtRate(state.settings.bcvEur) : "—";
-    $("#rBinance").textContent = state.settings.binance ? fmtRate(state.settings.binance) : "—";
-    $("#mBcv").textContent     = state.settings.bcv ? fmtRate(state.settings.bcv) : "—";
-    $("#mBcvEur").textContent  = state.settings.bcvEur ? fmtRate(state.settings.bcvEur) : "—";
-    $("#mBinance").textContent = state.settings.binance ? fmtRate(state.settings.binance) : "—";
+  function getActiveRateP(){
+    if (state.rateP === "custom") return Number($("#customRateP").value)||0;
+    return state.settings[state.rateP]||0;
   }
 
+  // ============ RENDER ============
+
+  function renderRates(){
+    const v = (k)=> state.settings[k] ? fmtRate(state.settings[k]) : "—";
+    $("#rBcv").textContent     = v("bcv");
+    $("#rBcvEur").textContent  = v("bcvEur");
+    $("#rBinance").textContent = v("binance");
+    $("#rBcvP").textContent     = v("bcv");
+    $("#rBcvEurP").textContent  = v("bcvEur");
+    $("#rBinanceP").textContent = v("binance");
+    $("#mBcv").textContent     = v("bcv");
+    $("#mBcvEur").textContent  = v("bcvEur");
+    $("#mBinance").textContent = v("binance");
+  }
+
+  // PREVIEW NUEVO COBRO
   function renderPreview(){
     const usdInput = parseFloat($("#iUsd").value)||0;
     const bsInput  = parseFloat($("#iBs").value)||0;
     let usd=0, bs=0;
     if (state.payMethod === "bs"){
       const r = getActiveRate();
-      bs  = bsInput;
+      bs = bsInput;
       usd = r > 0 ? bsInput / r : 0;
     } else {
       usd = usdInput;
-      bs  = usdInput * (state.settings.bcv||0);
+      bs = usdInput * (state.settings.bcv||0);
     }
-    const stylistPct = (state.settings.stylist||70)/100;
-    $("#prevMain").textContent       = fmtUsd(usd);
-    $("#prevSec").textContent        = fmtBs(bs);
-    $("#prevStylist").textContent    = fmtUsd(usd*stylistPct);
-    $("#prevStylistBs").textContent  = fmtBs(bs*stylistPct);
-    $("#prevStylistLbl").textContent = `Para el estilista (${state.settings.stylist||70}%)`;
+    const minePct = (state.settings.mine||30)/100;
+    $("#prevMain").textContent    = fmtUsd(usd);
+    $("#prevSec").textContent     = fmtBs(bs);
+    $("#prevMine").textContent    = fmtUsd(usd*minePct);
+    $("#prevMineBs").textContent  = fmtBs(bs*minePct);
+    $("#prevMineLbl").textContent = `Tu parte (${state.settings.mine||30}%)`;
+  }
+
+  // PREVIEW PAGO
+  function renderPreviewPay(){
+    const usdInput = parseFloat($("#payUsd").value)||0;
+    const bsInput  = parseFloat($("#payBs").value)||0;
+    let usd=0, bs=0;
+    if (state.payMethodP === "bs"){
+      const r = getActiveRateP();
+      bs = bsInput;
+      usd = r > 0 ? bsInput / r : 0;
+    } else {
+      usd = usdInput;
+      bs = usdInput * (state.settings.bcv||0);
+    }
+    $("#prevPayMain").textContent = fmtUsd(usd);
+    $("#prevPaySec").textContent  = fmtBs(bs);
+
+    const owed = calcOwed(state.entries);
+    const after = { usd: owed.usd - usd, bs: owed.bs - bs };
+    $("#prevPayBalance").textContent   = fmtUsd(after.usd);
+    $("#prevPayBalanceBs").textContent = fmtBs(after.bs);
   }
 
   function renderHistory(){
     const list = $("#historyList");
     let entries = [...state.entries];
-    if (state.filter !== "all") entries = entries.filter(e => e.method === state.filter);
+
+    if (state.filter === "cobros") entries = entries.filter(e=>e.type==="charge");
+    else if (state.filter === "pagos") entries = entries.filter(e=>e.type==="payment");
+    else if (state.filter !== "all") entries = entries.filter(e => e.method === state.filter);
 
     if (!entries.length){
       list.innerHTML = `
         <div class="empty">
           <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          <div class="ttl">Sin registros aún</div>
-          <div class="txt">Registra tu primera consulta en <strong>Nuevo cobro</strong></div>
+          <div class="ttl">Sin registros</div>
+          <div class="txt">No hay nada en este filtro todavía</div>
         </div>`;
       return;
     }
@@ -694,26 +891,39 @@
     const keys = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
     list.innerHTML = keys.map(k => {
       const items = groups[k];
-      const totalUsd = items.reduce((s,e)=>s+entryUsd(e),0);
+      const totalCobros = items.filter(e=>e.type==="charge").reduce((s,e)=>s+entryUsd(e),0);
+      const totalPagos  = items.filter(e=>e.type==="payment").reduce((s,e)=>s+entryUsd(e),0);
+      let totalLabel = "";
+      if (totalCobros && totalPagos) totalLabel = `+${fmtUsdShort(totalCobros)} / −${fmtUsdShort(totalPagos)}`;
+      else if (totalCobros) totalLabel = fmtUsd(totalCobros);
+      else if (totalPagos) totalLabel = `−${fmtUsd(totalPagos)}`;
       return `
         <div class="week-group">
           <div class="week-head">
             <div class="wtitle serif">${weekLabel(k)}</div>
-            <div class="wtotal num">${fmtUsd(totalUsd)}</div>
+            <div class="wtotal num">${totalLabel}</div>
           </div>
           ${items.map(e=>renderEntry(e)).join("")}
         </div>`;
     }).join("");
 
-    $$(".entry .del").forEach(b=>{
-      b.addEventListener("click", async ()=>{
-        const id = b.dataset.id;
-        if (!confirm("¿Eliminar este registro?")) return;
-        if (USE_FIREBASE){ await deleteDoc(doc(db,"entries",id)); }
-        else { state.entries = state.entries.filter(e=>e.id!==id); saveLocalEntries(); renderAll(); }
-        toast("Registro eliminado");
-      });
-    });
+    bindDelete();
+  }
+
+  function renderPaymentsList(){
+    const list = $("#paymentsList");
+    const payments = state.entries.filter(e => e.type === "payment");
+    if (!payments.length){
+      list.innerHTML = `
+        <div class="empty green">
+          <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></div>
+          <div class="ttl">Sin pagos aún</div>
+          <div class="txt">Cuando el estilista te pague, regístralo arriba</div>
+        </div>`;
+      return;
+    }
+    list.innerHTML = payments.map(e=>renderEntry(e)).join("");
+    bindDelete();
   }
 
   function renderEntry(e){
@@ -729,11 +939,16 @@
       rateLabel = rmap[e.rate] || "";
       if (e.rateUsed) rateLabel += " · " + fmtRate(e.rateUsed);
     }
+    const isPayment = e.type === "payment";
+    const typeTag = isPayment
+      ? `<span class="tag" style="background:var(--mint-soft);color:var(--mint-dark)">PAGO</span>`
+      : `<span class="tag" style="background:var(--primary-soft);color:var(--primary-dark)">COBRO</span>`;
     return `
-      <div class="entry">
+      <div class="entry ${isPayment?'payment':''}">
         <div class="left">
-          <div class="desc">${escapeHtml(e.desc || "Consulta")}</div>
+          <div class="desc">${escapeHtml(e.desc || (isPayment?"Pago recibido":"Consulta"))}</div>
           <div class="meta">
+            ${typeTag}
             <span>${dateStr}</span>
             <span class="tag ${e.method}">${methodLabel}</span>
             ${rateLabel ? `<span class="tag rate">${rateLabel}</span>` : ""}
@@ -749,31 +964,56 @@
       </div>`;
   }
 
+  function bindDelete(){
+    $$(".entry .del").forEach(b=>{
+      b.addEventListener("click", async ()=>{
+        const id = b.dataset.id;
+        if (!confirm("¿Eliminar este registro?")) return;
+        if (USE_FIREBASE){ await deleteDoc(doc(db,"entries",id)); }
+        else { state.entries = state.entries.filter(e=>e.id!==id); saveLocalEntries(); renderAll(); }
+        toast("Registro eliminado");
+      });
+    });
+  }
+
   function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 
   function renderDashboard(){
-    const now = new Date();
-    const wk  = getWeekKey(now);
-    const week = state.entries.filter(e => getWeekKey(getEntryDate(e)) === wk);
+    const charges = state.entries.filter(e=>e.type==="charge");
+    const minePct = (state.settings.mine||30)/100;
+    const stylistPct = (state.settings.stylist||70)/100;
 
+    // SALDOS DEUDA (todos / semana / mes)
+    const owedAll = calcOwed(state.entries);
+    const owedWeek = calcOwed(state.entries.filter(e=>isThisWeek(getEntryDate(e))));
+    const owedMonth = calcOwed(state.entries.filter(e=>isThisMonth(getEntryDate(e))));
+
+    $("#sDebeTotal").textContent  = fmtUsdShort(owedAll.usd);
+    $("#sDebeTotalBs").textContent= fmtBsShort(owedAll.bs);
+    $("#sDebeWeek").textContent   = fmtUsdShort(owedWeek.usd);
+    $("#sDebeWeekBs").textContent = fmtBsShort(owedWeek.bs);
+    $("#sDebeMonth").textContent  = fmtUsdShort(owedMonth.usd);
+    $("#sDebeMonthBs").textContent= fmtBsShort(owedMonth.bs);
+
+    $("#pDebeTotal").textContent   = fmtUsdShort(owedAll.usd);
+    $("#pDebeTotalBs").textContent = fmtBsShort(owedAll.bs);
+
+    // SEMANA: cobrado, reparto
+    const week = charges.filter(e => isThisWeek(getEntryDate(e)));
     const totalUsd = week.reduce((s,e)=>s+entryUsd(e),0);
     const totalBs  = week.reduce((s,e)=>s+entryBs(e),0);
-    const stylistPct = (state.settings.stylist||70)/100;
-    const minePct = (state.settings.mine||30)/100;
 
-    $("#sTotalSem").textContent   = fmtUsdShort(totalUsd);
-    $("#sTotalSemBs").textContent = fmtBsShort(totalBs);
-    $("#sCount").textContent      = week.length;
-    $("#sCountTxt").textContent   = week.length === 1 ? "consulta esta semana" : "consultas esta semana";
-    $("#sAvg").textContent        = week.length ? fmtUsdShort(totalUsd/week.length) : "$0";
-
+    $("#sTotalSem").textContent   = fmtUsd(totalUsd);
+    $("#sTotalSemBs").textContent = fmtBs(totalBs);
+    $("#sCountTxt").textContent   = week.length === 1 ? "1 consulta" : `${week.length} consultas`;
     $("#sStylistPct").textContent = (state.settings.stylist||70)+"%";
-    $("#sMinePct").textContent    = (state.settings.mine||30)+"%";
+    $("#sMinePct").textContent    = (state.settings.mine||30)+"% — lo que te debe esta semana";
     $("#sStylist").textContent    = fmtUsd(totalUsd*stylistPct);
     $("#sStylistBs").textContent  = fmtBs(totalBs*stylistPct);
     $("#sMine").textContent       = fmtUsd(totalUsd*minePct);
     $("#sMineBs").textContent     = fmtBs(totalBs*minePct);
 
+    // POR MÉTODO (semana, solo cobros)
     const byMethod = {zelle:0, efectivo:0, bs:0};
     week.forEach(e => byMethod[e.method] = (byMethod[e.method]||0) + entryUsd(e));
     const total = totalUsd || 1;
@@ -785,11 +1025,12 @@
     $("#pbEfectivoPct").textContent = Math.round((byMethod.efectivo/total)*100)+"%";
     $("#pbBsPct").textContent       = Math.round((byMethod.bs/total)*100)+"%";
 
+    // CHART 6 SEMANAS (solo cobros)
     const weeks = [];
     for (let i=5;i>=0;i--){
       const d = new Date(); d.setDate(d.getDate()-i*7);
       const k = getWeekKey(d);
-      const items = state.entries.filter(e => getWeekKey(getEntryDate(e)) === k);
+      const items = charges.filter(e => getWeekKey(getEntryDate(e)) === k);
       const sum = items.reduce((s,e)=>s+entryUsd(e),0);
       weeks.push({k, sum, label: weekLabel(k).split(" – ")[0]});
     }
@@ -801,9 +1042,16 @@
     $("#chartX").innerHTML = weeks.map(w=>`<span>${w.label}</span>`).join("");
   }
 
-  function renderAll(){ renderRates(); renderPreview(); renderHistory(); renderDashboard(); }
+  function renderAll(){
+    renderRates();
+    renderPreview();
+    renderPreviewPay();
+    renderHistory();
+    renderPaymentsList();
+    renderDashboard();
+  }
 
-  // EVENTOS
+  // ============ EVENTOS ============
   $("#menuToggle").addEventListener("click",()=>{
     $("#sidebar").classList.toggle("open");
     $("#scrim").classList.toggle("active");
@@ -825,6 +1073,7 @@
     });
   });
 
+  // === NUEVO COBRO ===
   $$("#payChips .chip").forEach(c=>{
     c.addEventListener("click",()=>{
       $$("#payChips .chip").forEach(x=>x.classList.remove("active"));
@@ -836,7 +1085,6 @@
       renderPreview();
     });
   });
-
   $$("#rateGrid .rate-card").forEach(c=>{
     c.addEventListener("click",()=>{
       $$("#rateGrid .rate-card").forEach(x=>x.classList.remove("active"));
@@ -853,10 +1101,106 @@
     document.querySelector('#rateGrid [data-rate="custom"]').classList.add("active");
     renderPreview();
   });
-
   $("#iUsd").addEventListener("input", renderPreview);
   $("#iBs").addEventListener("input", renderPreview);
 
+  $("#btnSave").addEventListener("click", async ()=>{
+    const desc = $("#iDesc").value.trim();
+    if (!desc){ toast("Pon una descripción"); return; }
+    let entry = { type:"charge", desc, method: state.payMethod, dateMs: Date.now() };
+    if (state.payMethod === "bs"){
+      const bs = parseFloat($("#iBs").value)||0;
+      if (!bs){ toast("Pon el monto en bolívares"); return; }
+      const r = getActiveRate();
+      if (!r){ toast("Pon una tasa válida"); return; }
+      entry.bs = bs; entry.usd = bs / r;
+      entry.rate = state.rate; entry.rateUsed = r;
+    } else {
+      const usd = parseFloat($("#iUsd").value)||0;
+      if (!usd){ toast("Pon el monto en dólares"); return; }
+      entry.usd = usd;
+    }
+    if (USE_FIREBASE){
+      entry.createdAt = serverTimestamp();
+      await addDoc(collection(db,"entries"), entry);
+    } else {
+      entry.id = "l"+Date.now();
+      state.entries.unshift(entry);
+      saveLocalEntries(); renderAll();
+    }
+    $("#iDesc").value = "";
+    $("#iUsd").value = "";
+    $("#iBs").value = "";
+    renderPreview();
+    toast("Cobro guardado ✓");
+  });
+
+  // === PAGOS ===
+  $$("#payChipsP .chip").forEach(c=>{
+    c.addEventListener("click",()=>{
+      $$("#payChipsP .chip").forEach(x=>x.classList.remove("active"));
+      c.classList.add("active");
+      state.payMethodP = c.dataset.pay;
+      const isBs = state.payMethodP === "bs";
+      $("#bsFieldP").style.display  = isBs ? "" : "none";
+      $("#usdFieldP").style.display = isBs ? "none" : "";
+      renderPreviewPay();
+    });
+  });
+  $$("#rateGridP .rate-card").forEach(c=>{
+    c.addEventListener("click",()=>{
+      $$("#rateGridP .rate-card").forEach(x=>x.classList.remove("active"));
+      c.classList.add("active");
+      state.rateP = c.dataset.rate;
+      if (state.rateP === "custom") $("#customRateP").focus();
+      renderPreviewPay();
+    });
+  });
+  $("#customRateP").addEventListener("click",e=>e.stopPropagation());
+  $("#customRateP").addEventListener("input", ()=>{
+    state.rateP = "custom";
+    $$("#rateGridP .rate-card").forEach(x=>x.classList.remove("active"));
+    document.querySelector('#rateGridP [data-rate="custom"]').classList.add("active");
+    renderPreviewPay();
+  });
+  $("#payUsd").addEventListener("input", renderPreviewPay);
+  $("#payBs").addEventListener("input", renderPreviewPay);
+
+  $("#btnSavePay").addEventListener("click", async ()=>{
+    let entry = {
+      type:"payment",
+      desc: $("#payDesc").value.trim() || "Pago recibido",
+      method: state.payMethodP,
+      dateMs: Date.now()
+    };
+    if (state.payMethodP === "bs"){
+      const bs = parseFloat($("#payBs").value)||0;
+      if (!bs){ toast("Pon el monto en bolívares"); return; }
+      const r = getActiveRateP();
+      if (!r){ toast("Pon una tasa válida"); return; }
+      entry.bs = bs; entry.usd = bs / r;
+      entry.rate = state.rateP; entry.rateUsed = r;
+    } else {
+      const usd = parseFloat($("#payUsd").value)||0;
+      if (!usd){ toast("Pon el monto en dólares"); return; }
+      entry.usd = usd;
+    }
+    if (USE_FIREBASE){
+      entry.createdAt = serverTimestamp();
+      await addDoc(collection(db,"entries"), entry);
+    } else {
+      entry.id = "l"+Date.now();
+      state.entries.unshift(entry);
+      saveLocalEntries(); renderAll();
+    }
+    $("#payDesc").value = "";
+    $("#payUsd").value = "";
+    $("#payBs").value = "";
+    renderPreviewPay();
+    toast("Pago registrado ✓");
+  });
+
+  // === FILTRO HISTORIAL ===
   $$("#filterBar button").forEach(b=>{
     b.addEventListener("click",()=>{
       $$("#filterBar button").forEach(x=>x.classList.remove("active"));
@@ -866,43 +1210,7 @@
     });
   });
 
-  $("#btnSave").addEventListener("click", async ()=>{
-    const desc = $("#iDesc").value.trim();
-    if (!desc){ toast("Pon una descripción"); return; }
-
-    let entry = { desc, method: state.payMethod, dateMs: Date.now() };
-
-    if (state.payMethod === "bs"){
-      const bs = parseFloat($("#iBs").value)||0;
-      if (!bs){ toast("Pon el monto en bolívares"); return; }
-      const r = getActiveRate();
-      if (!r){ toast("Pon una tasa válida"); return; }
-      entry.bs = bs;
-      entry.usd = bs / r;
-      entry.rate = state.rate;
-      entry.rateUsed = r;
-    } else {
-      const usd = parseFloat($("#iUsd").value)||0;
-      if (!usd){ toast("Pon el monto en dólares"); return; }
-      entry.usd = usd;
-    }
-
-    if (USE_FIREBASE){
-      entry.createdAt = serverTimestamp();
-      await addDoc(collection(db,"entries"), entry);
-    } else {
-      entry.id = "l"+Date.now();
-      state.entries.unshift(entry);
-      saveLocalEntries(); renderAll();
-    }
-
-    $("#iDesc").value = "";
-    $("#iUsd").value = "";
-    $("#iBs").value = "";
-    renderPreview();
-    toast("Guardado ✓");
-  });
-
+  // === SETTINGS ===
   $("#btnSettings").addEventListener("click",()=>{
     $("#setBcv").value     = state.settings.bcv;
     $("#setBcvEur").value  = state.settings.bcvEur;
@@ -913,7 +1221,6 @@
   });
   $("#btnCloseSettings").addEventListener("click",()=>$("#modalBg").classList.remove("active"));
   $("#modalBg").addEventListener("click",(e)=>{ if(e.target.id==="modalBg") $("#modalBg").classList.remove("active");});
-
   $("#btnSaveSettings").addEventListener("click", async ()=>{
     state.settings = {
       ...state.settings,
@@ -925,13 +1232,10 @@
     };
     if (USE_FIREBASE){
       await setDoc(doc(db,"config","settings"), state.settings, {merge:true});
-    } else {
-      saveLocalSettings(); renderAll();
-    }
+    } else { saveLocalSettings(); renderAll(); }
     $("#modalBg").classList.remove("active");
     toast("Configuración guardada ✓");
   });
-
   $("#btnRefreshRates").addEventListener("click", ()=>fetchRates(false));
 
   // INIT
